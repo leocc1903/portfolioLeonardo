@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Importa a fonte 'Inter' do Google Fonts para um visual moderno e limpo */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap'); /* Adicionado pesos 800 e 900 para títulos */
 
         /* Adiciona um preenchimento no topo para garantir que o conteúdo não seja coberto pelo cabeçalho fixo */
         html {
@@ -19,33 +19,59 @@
 
         /* Estilos base para o corpo do documento */
         body {
-            font-family: 'Inter', sans-serif; /* Aplica a fonte 'Inter' */
-            background-color: #0f172a; /* NOVO: Fundo azul-marinho profundo (slate-900) */
-            color: #e5e7eb; /* Cor do texto padrão (cinza claro) */
+            font-family: 'Inter', sans-serif; /* Aplica a fonte 'Inter' como padrão */
+            color: #f3f4f6; /* ATUALIZADO: Cor do texto padrão (cinza-100, quase branco) */
             padding-top: 6rem; /* Adiciona espaço no topo para o cabeçalho fixo não cobrir o conteúdo */
             overflow-x: hidden; /* Garante que não haja rolagem horizontal desnecessária */
+            /* NOVO: Adiciona sombra de texto sutil a todo o corpo para melhor contraste */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
-            /* Esta classe será adicionada ao <body> para impedir a rolagem da página quando o modal estiver aberto */
-            body.modal-open {
-                overflow: hidden;
+        /* NOVA CLASSE: Gradiente de fundo ANIMADO */
+        .gradient-background {
+            /* Define um gradiente linear maior que a tela */
+            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #0891b2, #1e293b); /* Ciano mais escuro na animação */
+            background-size: 400% 400%; /* Tamanho maior para permitir o movimento */
+            animation: animate-gradient 15s ease infinite; /* Aplica a animação */
+            background-attachment: fixed; /* Fixa o fundo enquanto o usuário rola */
+        }
+
+        /* Define a animação do gradiente */
+        @keyframes animate-gradient {
+            0% {
+                background-position: 0% 50%;
             }
+            /* Posição inicial */
+            50% {
+                background-position: 100% 50%;
+            }
+            /* Posição intermediária */
+            100% {
+                background-position: 0% 50%;
+            }
+            /* Volta à posição inicial */
+        }
+
+
+        /* Esta classe será adicionada ao <body> para impedir a rolagem da página quando o modal estiver aberto */
+        body.modal-open {
+            overflow: hidden;
+        }
 
         /* Classes de cores personalizadas (Agora em tons de Azul Escuro/Ciano) */
         .bg-dark-purple-1 {
-            background-color: #0f172a; /* NOVO: Azul-marinho principal */
+            background-color: #0f172a; /* Azul-marinho principal */
         }
 
         .bg-dark-purple-2 {
-            background-color: #1e293b; /* NOVO: Azul-marinho escuro para cabeçalho/curriculo */
+            background-color: #1e293b; /* Azul-marinho escuro para cabeçalho/curriculo */
         }
 
         .bg-dark-purple-3 {
-            background-color: #334155; /* NOVO: Azul-marinho médio para cards de habilidade */
+            background-color: #334155; /* Azul-marinho médio para cards de habilidade */
         }
 
         /* ----- Animações de Entrada de Seções ao Rolar a Página ----- */
-        /* Keyframe para a animação "fade-in-up" que move elementos de baixo para cima */
         @keyframes fade-in-up {
             from {
                 opacity: 0;
@@ -57,7 +83,7 @@
                 transform: translateY(0);
             }
         }
-        /* Keyframe para a animação "fade-in-down" que move elementos de cima para baixo */
+
         @keyframes fade-in-down {
             from {
                 opacity: 0;
@@ -65,59 +91,59 @@
             }
 
             to {
+                opacity: 1;
                 transform: translateY(0);
             }
         }
-        /* Classe base para os elementos que serão animados ao rolar a página */
+
         .animate-on-scroll {
-            opacity: 0; /* Começa com opacidade 0 (invisível) */
-            transform: translateY(20px); /* Começa 20px abaixo da posição final */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Transição suave para a animação */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-            /* Classe ativada por JavaScript quando o elemento entra na área de visualização */
+
             .animate-on-scroll.visible {
-                opacity: 1; /* Torna o elemento visível */
-                transform: translateY(0); /* Move para a posição final */
+                opacity: 1;
+                transform: translateY(0);
             }
         /* ------------------------------------------------------------------ */
 
         /* ----- Estilos do Modal de Imagem em Tela Cheia ----- */
         .modal {
-            position: fixed; /* Fixa o modal na tela, sobrepondo todo o conteúdo */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Fundo preto semi-transparente */
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
-            align-items: center; /* Centraliza verticalmente o loader */
-            z-index: 1000; /* Garante que o modal fique no topo de outros elementos */
-            opacity: 0; /* Inicia transparente */
-            visibility: hidden; /* Inicia invisível (não interativo) */
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* Transição suave para o efeito de fade */
-            overflow-y: auto; /* Permite a rolagem interna do modal */
-            padding: 2rem; /* Adiciona um padding para a imagem não tocar as bordas */
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem;
         }
-            /* Classe que torna o modal visível */
+
             .modal.visible {
-                opacity: 1; /* Torna o modal opaco */
-                visibility: visible; /* Torna o modal visível e interativo */
-                align-items: flex-start; /* Alinha o conteúdo ao topo para a rolagem correta da imagem */
+                opacity: 1;
+                visibility: visible;
+                align-items: flex-start;
             }
 
             .modal img {
-                width: auto; /* Permite que a imagem use sua largura original */
-                height: auto; /* Permite que a imagem use sua altura original */
-                max-width: 100%; /* Limita a largura para 100% do modal, mas não da tela */
-                max-height: none; /* Remove qualquer limitação de altura */
-                border-radius: 1rem; /* Borda arredondada */
-                box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5); /* Sombra para dar destaque */
-                /* NOVO: Adiciona transição de opacidade para o fade-in/out da imagem */
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: none;
+                border-radius: 1rem;
+                box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
                 transition: opacity 0.3s ease-in-out;
             }
 
-        /* ----- Estilos do Loader (Animação de Carregamento) ----- */
+        /* ----- Estilos do Loader ----- */
         @keyframes spin {
             from {
                 transform: rotate(0deg);
@@ -129,545 +155,439 @@
         }
 
         .loader {
-            position: fixed; /* Fixa o loader no centro da tela */
+            position: fixed;
             top: 50%;
             left: 50%;
-            /* Centraliza perfeitamente, ajustando pela metade do próprio tamanho */
             transform: translate(-50%, -50%);
-            z-index: 1010; /* Fica acima da imagem do modal */
-            border: 4px solid rgba(255, 255, 255, 0.2); /* Cor de fundo (quase transparente) */
-            border-top: 4px solid #22d3ee; /* Cor do spinner (cian-400) */
+            z-index: 1010;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #0e7490; /* cian-700 */
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            animation: spin 1s linear infinite; /* Aplica a animação de rotação */
+            animation: spin 1s linear infinite;
         }
         /* ------------------------------------------------------------------ */
 
-        /* ----- Estilos Adicionais para o Novo Design ----- */
-        /* Estiliza o gradiente dos botões e títulos (agora em CIANO) */
+        /* ----- Estilos Adicionais ----- */
         .bg-gradient-to-r-purple {
-            background-image: linear-gradient(to right, #06b6d4, #22d3ee); /* NOVO: Tons de ciano */
+            /* ATUALIZADO: Gradiente para ciano brilhante */
+            background-image: linear-gradient(to right, #22d3ee, #06b6d4); /* cian-400 to cian-500 */
         }
 
-        /* Estiliza a sombra dos cards (agora em CIANO) */
         .shadow-glow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 40px rgba(6, 182, 212, 0.1); /* NOVO: Ciano suave */
+            /* Ciano mais escuro para a sombra */
+            box-shadow: 0 0 10px rgba(14, 116, 144, 0.4), 0 0 40px rgba(14, 116, 144, 0.1), inset 0 0 10px rgba(14, 116, 144, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
         }
 
-        /* Animação de fundo para a seção de cabeçalho (agora em CIANO) */
-        @keyframes subtle-glow {
-            0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
+        .shadow-glow-hover:hover {
+            box-shadow: 0 0 15px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.3), inset 0 0 15px rgba(14, 116, 144, 0.2);
         }
 
-        .animated-bg {
-            position: relative;
-            overflow: hidden;
+        .neon-button-hover:hover {
+            box-shadow: 0 0 8px rgba(14, 116, 144, 0.8), 0 0 30px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.4);
+            border-color: #0e7490; /* cian-700 */
         }
 
-            .animated-bg::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 150%;
-                height: 150%;
-                background: radial-gradient(circle, rgba(6, 182, 212, 0.1), transparent 70%); /* NOVO: Ciano suave */
-                animation: subtle-glow 5s infinite ease-in-out;
-                transform: translate(-50%, -50%);
-                z-index: -1;
-            }
-
-        /* Estilos para o contêiner dos botões de imagem */
+        /* Botões do Portfólio */
         .portfolio-button-container {
-            /* Garante que o contêiner tenha uma posição relativa para o posicionamento absoluto das imagens */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             position: relative;
-            /* Adiciona o efeito de sombra e as transições no próprio contêiner */
-            /*box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);*/
             cursor: pointer;
-            overflow: visible; /* Permite que o zoom da imagem não seja cortado */
-            /* NOVO: Zoom no contêiner para efeito de "levantamento" */
+            overflow: visible;
             transform: scale(1);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            /* REMOVIDO: border-radius: 0.75rem; */
         }
 
-            /* Estilo base para todas as imagens dentro do contêiner */
             .portfolio-button-container img {
                 width: 100%;
-                height: auto; /* Adicionado para garantir que a imagem defina a altura e não seja esticada */
-                object-fit: contain; /* Garante que a imagem inteira seja visível, sem cortes */
-                /* border-radius: 0.75rem; /* rounded-xl (Mantido na imagem, como você queria) */
+                height: auto;
+                object-fit: contain;
             }
 
-            /* Classe para a imagem padrão (Gradiente) */
             .portfolio-button-container .default-img {
                 z-index: 10;
                 opacity: 1;
                 transition: opacity 0.3s ease-in-out;
             }
 
-            /* Estilo para a imagem de hover que aparece por cima */
             .portfolio-button-container .hover-img {
-                /* Posiciona a imagem de hover por cima do default-img */
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0; /* ADICIONADO para cobrir a área */
-                bottom: 0; /* ADICIONADO para cobrir a área */
+                right: 0;
+                bottom: 0;
                 z-index: 5;
-                /* Por padrão, a imagem de hover fica invisível */
                 opacity: 0;
-                /* Adiciona uma transição para a opacidade para criar o efeito de fade in */
                 transition: opacity 0.3s ease-in-out;
-                /*border-radius: 0.75rem; /* rounded-xl */
             }
 
-            /* NOVO: Quando o mouse está sobre o contêiner, a imagem padrão desaparece (fade out) */
             .portfolio-button-container:hover .default-img {
                 opacity: 0;
             }
 
-            /* NOVO: Quando o mouse está sobre o contêiner, a imagem de hover se torna visível (fade in) */
             .portfolio-button-container:hover .hover-img {
                 opacity: 1;
             }
 
-        /* ----- Efeito de Zoom nas Imagens da Galeria (Miniaturas) ----- */
+        /* Zoom Imagens da Galeria */
         .card-hover-border img {
             transition: transform 0.3s ease-in-out;
         }
-        /* Aplica o zoom quando o mouse está sobre o card */
+
         .card-hover-border:hover img {
-            transform: scale(1.05); /* 5% de zoom */
+            transform: scale(1.05);
         }
-        /* ------------------------------------------------------------------ */
+
+        /* Habilidades */
+        .skill-card {
+            background-color: #334155;
+            border: 1px solid #0e7490; /* cian-700 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+            .skill-card:hover {
+                transform: scale(0.97);
+                box-shadow: 0 0 15px rgba(14, 116, 144, 0.4); /* cian-700 */
+                background-color: #475569;
+                border-color: #0891b2; /* cian-600 */
+            }
+
+        /* REMOVIDO sombra de texto extra nos botões, pois o body já aplica */
+        /* .group-hover\:text-cyan-600 {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+        } */
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased gradient-background">
 
-    <!-- Cabeçalho de Navegação Fixo --><nav class="fixed top-0 left-0 right-0 bg-dark-purple-2 bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-lg py-4 z-50">
+    <!-- Cabeçalho de Navegação Fixo --><nav class="fixed top-0 left-0 right-0 bg-dark-purple-2 bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-lg py-4 z-50 border-b border-gray-700/50">
         <div class="container mx-auto flex justify-center gap-8">
-            <!-- Links de navegação com âncoras para as seções --><a href="#portfolio" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Portfólio</a>
+            <a href="#portfolio" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Portfólio</a>
+            <a href="#habilidades" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Habilidades</a>
             <a href="#curriculo" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Currículo</a>
-            <!-- Botão de Contato que leva para o WhatsApp. 'target="_blank"' abre em uma nova aba. --><a href="https://wa.me/5541998783295" target="_blank" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300 flex items-center gap-1">
+            <a href="https://wa.me/5541998783295" target="_blank" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300 flex items-center gap-1">
                 Contato
-                <!-- Ícone do WhatsApp em formato PNG. Substitua o URL abaixo pelo link da sua imagem PNG. --><img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758233342/Whatsicon_itcqgq.png" alt="Ícone do WhatsApp" class="w-4 h-4">
+                <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758233342/Whatsicon_itcqgq.png" alt="Ícone do WhatsApp" class="w-4 h-4">
             </a>
         </div>
     </nav>
 
-    <!-- Seção do Cabeçalho - Combina Introdução e Sobre Mim --><!-- Removendo a cor de fundo sólida, permitindo que o fundo do corpo e a animação se misturem --><header class="py-16 px-4 sm:px-6 lg:px-8 text-center animated-bg">
+    <!-- Cabeçalho Principal --><header class="py-6 px-4 sm:px-6 lg:px-8 text-center">
         <div class="container mx-auto">
-            <!-- Título principal com animação de fade-in de cima para baixo --><h1 class="text-4xl sm:text-6xl font-bold text-white tracking-wide animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
-            <!-- Subtítulo com animação de fade-in de baixo para cima --><p class="mt-4 text-xl sm:text-2xl text-gray-400 animate-[fade-in-up_1s_ease-out_forwards_0.5s]">Designer gráfico</p>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-wide animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
+            <p class="mt-4 text-xl sm:text-2xl text-gray-200 font-semibold animate-[fade-in-up_1s_ease-out_forwards_0.5s]">Designer gráfico</p>
         </div>
-        <!-- Bloco de Sobre Mim dentro do cabeçalho, com animação de rolagem --><!-- O container agora tem uma borda sutil e uma sombra mais pronunciada para criar profundidade --><div class="container mx-auto max-w-4xl border-2 border-cyan-600 p-8 rounded-3xl shadow-glow mt-8 animate-on-scroll transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] group">
-            <!-- Título da seção com uma cor e espaçamento mais definidos --><h2 class="text-3xl font-bold text-white text-center mb-6 border-b-2 border-cyan-500 pb-2 inline-block relative group-hover:text-cyan-400 transition-colors">Sobre Mim</h2>
-            <!-- Parágrafo com texto e espaçamento ajustados para melhor legibilidade --><p class="text-gray-300 text-lg leading-relaxed mt-6">
+        <!-- Sobre Mim --><div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow mt-8 animate-on-scroll transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] group bg-slate-900/50 backdrop-blur-md">
+            <h2 class="text-3xl font-bold text-white text-center mb-6 border-b-2 border-cyan-400 pb-2 inline-block relative group-hover:text-cyan-400 transition-colors">Sobre Mim</h2>
+            <p class="text-gray-100 text-lg leading-relaxed mt-6">
                 Designer Gráfico com experiência na criação e desenvolvimento de identidade visual e logomarcas. Habilidade na elaboração de materiais de marketing e design em geral, com foco em comunicação visual objetiva e engajadora. Proficiência em diversas ferramentas gráficas, de edição e em novas tecnologias como Inteligência Artificial.
             </p>
         </div>
     </header>
 
-    <!-- Seção principal de Portfólio, com animação de rolagem --><section id="portfolio" class="py-10 px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <div class="container mx-auto max-w-3xl text-center">
-            <!-- ALTERADO: max-w-4xl para max-w-3xl -->
-            <!-- Novo cabeçalho da seção "Portfólio" com título, subtítulo e separador visual --><div class="flex flex-col items-center justify-center mb-12 animate-on-scroll">
+    <!-- Portfólio --><section id="portfolio" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+            <div class="flex flex-col items-center justify-center mb-12 animate-on-scroll">
                 <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
                     Portfólio
                     <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
-                <p class="mt-4 text-lg text-gray-400 max-w-lg">
+                <p class="mt-4 text-lg text-gray-200 max-w-lg">
                     Uma coleção cuidadosamente selecionada dos meus trabalhos mais recentes e projetos de destaque.
                 </p>
             </div>
-
-            <!-- Botões e Galerias (Wider parent) --><div class="space-y-2">
-
-                <!-- 1. Botão DHD + Fleisch --><div id="toggleDHDButton" data-target="dhdGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761186711/DHD2_r9vevv.png" alt="Botão DHD + Fleisch">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761186710/DHD1_cwm22g.png" alt="Botão DHD + Fleisch - Hover">
+            <div class="space-y-4">
+                <!-- Botão DHD + Fleisch --><div id="toggleDHDButton" data-target="dhdGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">DHD & Fleisch</p></div>
                 </div>
-                <div id="dhdGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <!-- Nova Imagem 1 --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/Apresenta%C3%A7ao_Grupo_DHD_combinadoMenor_phyc2d.jpg" alt="Projeto 1">
-                    </div>
-                    <!-- Nova Imagem 2 --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758762132/CapaFleisch2_doynjq.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758761579/PRODUTOS_FLEISCH_combinado_f3cvlr.jpg" alt="Projeto 2">
+                <!-- Galeria DHD --><div id="dhdGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/Apresenta%C3%A7ao_Grupo_DHD_combinadoMenor_phyc2d.jpg" alt="Projeto 1"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758762132/CapaFleisch2_doynjq.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758761579/PRODUTOS_FLEISCH_combinado_f3cvlr.jpg" alt="Projeto 2"></div>
                     </div>
                 </div>
-
-                <!-- 2. Botão Identidade visual --><div id="toggleIVButton" data-target="ivGallery1" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189661/ID2_bip9pr.png" alt="Botão Identidade Visual">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189660/ID1_rza8di.png" alt="Botão Identidade Visual - Hover">
+                <!-- Botão Identidade visual --><div id="toggleIVButton" data-target="ivGallery1" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Identidade visual</p></div>
                 </div>
-                <div id="ivGallery1" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <!-- 16 Imagens --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631399/10_bq1vra.webp" alt="Projeto de marca XYZ">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-13_fnk01d.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631434/13_ndqx1x.webp" alt="Guia de marca">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-12_jszqm6.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631422/12_fu8v7u.webp" alt="Paleta de cores">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-4_htp58l.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/4_zijjqj.webp" alt="Mockup de produto">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-6_pmgv9m.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/6_biqujy.webp" alt="Estudo de tipografia">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-11_pvtakl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631410/11_haxccx.webp" alt="Projeto de Branding 6">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758380692/Sem_T%C3%ADtulo-1_zspuvl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758312640/Apresenta%C3%A7%C3%A3o_-_Tom%C3%A9_Fausto222_combinado_gns6f2.webp" alt="Conceito Visual 7">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-8_gs3j1u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631395/8_ssb5n8.webp" alt="Redesign 8">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-15_sgvwbk.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/15_wpkexn.webp" alt="Ilustração 9">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-7_i6dhns.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/7_lo8ere.webp" alt="Identidade 10">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-3_ppi91g.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/3_mygnpm.webp" alt="Identidade 11">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758394416/Sem_T%C3%ADtulo-2_aqu9oo.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758637826/2_oolk5a.webp" alt="UX Design 12">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-5_n6ykb4.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/5_komxtt.webp" alt="UI Design 13">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-9_f3uuru.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631394/9_gokand.webp" alt="Tipografia 14">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-14_vbbon5.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631446/14_yba582.webp" alt="Logotipo 15">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16_iabjgl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16Apresentac%CC%A7a%CC%83o_Recupera-_Ortopedia_Bem-Estar_combinado_ibxwl8.webp" alt="Branding 16">
+                <!-- Galeria Identidade Visual --><div id="ivGallery1" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631399/10_bq1vra.webp" alt="Projeto de marca XYZ"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-13_fnk01d.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631434/13_ndqx1x.webp" alt="Guia de marca"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-12_jszqm6.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631422/12_fu8v7u.webp" alt="Paleta de cores"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-4_htp58l.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/4_zijjqj.webp" alt="Mockup de produto"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-6_pmgv9m.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/6_biqujy.webp" alt="Estudo de tipografia"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-11_pvtakl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631410/11_haxccx.webp" alt="Projeto de Branding 6"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758380692/Sem_T%C3%ADtulo-1_zspuvl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758312640/Apresenta%C3%A7%C3%A3o_-_Tom%C3%A9_Fausto222_combinado_gns6f2.webp" alt="Conceito Visual 7"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-8_gs3j1u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631395/8_ssb5n8.webp" alt="Redesign 8"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-15_sgvwbk.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/15_wpkexn.webp" alt="Ilustração 9"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-7_i6dhns.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/7_lo8ere.webp" alt="Identidade 10"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-3_ppi91g.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/3_mygnpm.webp" alt="Identidade 11"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758394416/Sem_T%C3%ADtulo-2_aqu9oo.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758637826/2_oolk5a.webp" alt="UX Design 12"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631503/Sem_T%C3%ADtulo-5_n6ykb4.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631393/5_komxtt.webp" alt="UI Design 13"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-9_f3uuru.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631394/9_gokand.webp" alt="Tipografia 14"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-14_vbbon5.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631446/14_yba582.webp" alt="Logotipo 15"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16_iabjgl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16Apresentac%CC%A7a%CC%83o_Recupera-_Ortopedia_Bem-Estar_combinado_ibxwl8.webp" alt="Branding 16"></div>
                     </div>
                 </div>
-
-                <!-- 3. Botão Farmácia Santa Terezinha (Placeholder) --><div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189659/FST2_chowrh.png" alt="Botão Farmácia Gradiente">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189658/FST1_qrvgkm.png" alt="Botão Farmácia Branco - Hover">
+                <!-- Botão Farmácia Santa Terezinha --><div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Farmácia Santa Terezinha</p></div>
                 </div>
-                <div id="farmaciaGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTSocialmedia_tacex4.webp" alt="Farmácia Santa Terezinha Projeto 1">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/capa2_gazl2j.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTMascotes2_yrenec.webp" alt="Farmácia Santa Terezinha Projeto 2">
+                <!-- Galeria Farmácia Santa Terezinha --><div id="farmaciaGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTSocialmedia_tacex4.webp" alt="Farmácia Santa Terezinha Projeto 1"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/capa2_gazl2j.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTMascotes2_yrenec.webp" alt="Farmácia Santa Terezinha Projeto 2"></div>
                     </div>
                 </div>
-
-                <!-- 4. Botão Indicafy (Placeholder) --><div id="toggleIndicafyButton" data-target="indicafyGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189665/Indicafy2_f9e33u.png" alt="Botão Indicafy Gradiente">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189664/Indicafy1_h3em7w.png" alt="Botão Indicafy Branco - Hover">
+                <!-- Botão Indicafy --><div id="toggleIndicafyButton" data-target="indicafyGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Indicafy</p></div>
                 </div>
-                <div id="indicafyGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/indicafySite_ucr0r1.webp" alt="Indicafy Projeto 1">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaPitchdeckIndicafy_wadynb.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362479/Pitch_nicho_hof_combinado_lcdigq.jpg" alt="Indicafy Projeto 2">
-                    </div>
-                    <!-- Nova Imagem 3 --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaFlyersIndicafy_dnrjc6.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/Clube_combinado_tksody.png" alt="Indicafy Projeto 3">
+                <!-- Galeria Indicafy --><div id="indicafyGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/indicafySite_ucr0r1.webp" alt="Indicafy Projeto 1"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaPitchdeckIndicafy_wadynb.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362479/Pitch_nicho_hof_combinado_lcdigq.jpg" alt="Indicafy Projeto 2"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaFlyersIndicafy_dnrjc6.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/Clube_combinado_tksody.png" alt="Indicafy Projeto 3"></div>
                     </div>
                 </div>
-
-                <!-- 5. Botão Instituto da prevenção (Placeholder) --><div id="toggleInstitutoButton" data-target="institutoGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189663/IDP2_u8ixwk.png" alt="Botão Instituto Gradiente">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189662/IDP1_qoy5xx.png" alt="Botão Instituto Branco - Hover">
+                <!-- Botão Instituto da prevenção --><div id="toggleInstitutoButton" data-target="institutoGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Instituto da prevenção</p></div>
                 </div>
-                <div id="institutoGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183993/IDP2_wo548g.webp" alt="Instituto da Prevenção Projeto 1">
+                <!-- Galeria Instituto da prevenção --><div id="institutoGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183993/IDP2_wo548g.webp" alt="Instituto da Prevenção Projeto 1"></div>
                     </div>
                 </div>
-
-                <!-- 6. Botão Marble Perfumes (Placeholder) --><div id="toggleMarbleButton" data-target="marbleGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189667/Marble2_vqiqxm.png" alt="Botão Marble Gradiente">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189666/Marble1_abc2sa.png" alt="Botão Marble Branco - Hover">
+                <!-- Botão Marble Perfumes --><div id="toggleMarbleButton" data-target="marbleGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Marble Perfumes</p></div>
                 </div>
-                <div id="marbleGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <!-- Apenas 1 imagem para Marble Perfumes --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183863/Conoketi_p1lyak.webp" alt="Marble Perfumes Projeto 1">
+                <!-- Galeria Marble Perfumes --><div id="marbleGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183863/Conoketi_p1lyak.webp" alt="Marble Perfumes Projeto 1"></div>
                     </div>
                 </div>
-
-                <!-- 7. Botão 3D (Modelagem 3D) --><div id="toggle3DButton" data-target="threeDGallery" class="w-full max-w-md mx-auto portfolio-button-container rounded-xl z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-transform duration-300">
-                    <img class="w-full h-auto default-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189656/3d2_j4nl7w.png" alt="Botão de Modelagem 3D">
-                    <img class="w-full h-auto hover-img" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761189602/3d1_cckkgz.png" alt="Botão de Modelagem 3D - Hover">
+                <!-- Botão Modelagem 3D --><div id="toggle3DButton" data-target="threeDGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
+                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Modelagem 3D</p></div>
                 </div>
-                <div id="threeDGallery" class="gallery-section grid grid-cols-1 gap-8 mt-8 transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full">
-                    <!-- ADICIONADO: mx-auto w-full -->
-                    <!-- 3 Imagens --><div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184050/Elefante_xuejwq.webp" alt="Modelagem 3D Imagem 1">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184040/MascotesCapa_tfz0bt.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184039/Mascotes_pufzhb.webp" alt="Modelagem 3D Imagem 2">
-                    </div>
-                    <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50">
-                        <img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/CAPA3dEmgeral_r1ezvm.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/3dEmgeral_acasaj.webp" alt="Modelagem 3D Imagem 3">
-                    </div>
-
-                    <!-- 2 Vídeos do YouTube --><!-- REMOVIDO: transition-all hover:scale-105 --><div class="aspect-video rounded-lg overflow-hidden shadow-lg">
-                        <iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/r55raPhoD4g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <!-- REMOVIDO: transition-all hover:scale-105 --><div class="aspect-video rounded-lg overflow-hidden shadow-lg">
-                        <iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/LcJVUfCWvzM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Galeria Modelagem 3D --><div id="threeDGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                    <div class="grid grid-cols-1 gap-8 mt-8">
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184050/Elefante_xuejwq.webp" alt="Modelagem 3D Imagem 1"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184040/MascotesCapa_tfz0bt.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184039/Mascotes_pufzhb.webp" alt="Modelagem 3D Imagem 2"></div>
+                        <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/CAPA3dEmgeral_r1ezvm.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/3dEmgeral_acasaj.webp" alt="Modelagem 3D Imagem 3"></div>
+                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/r55raPhoD4g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/LcJVUfCWvzM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Seção de Currículo - Agora com uma imagem de prévia clicável --><section id="curriculo" class="pt-16 pb-8 px-4 sm:px-6 lg:px-8 bg-dark-purple-2 animate-on-scroll">
-        <!-- ALTERADO: py-16 para pt-16 pb-8 -->
-        <div class="container mx-auto max-w-4xl p-8 rounded-3xl shadow-glow text-center">
-            <!-- Título da seção -->
-            <h2 class="text-3xl font-bold text-white mb-6">Currículo</h2>
-
-            <!-- NOVO: Texto de instrução para o clique, movido para cima e com margem ajustada -->
-            <p class="text-gray-400 mb-6 text-sm">Clique na imagem para visualizar o currículo completo em tela cheia.</p>
-
-            <!-- NOVO: Container da imagem de prévia do currículo --><!-- A largura máxima foi aumentada para max-w-xl para dar mais destaque --><div id="curriculoImageContainer" class="cursor-pointer max-w-xl mx-auto rounded-xl shadow-glow transition-transform duration-300 transform hover:scale-[1.03]">
-                <img id="curriculoImage"
-                     src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png"
-                     data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195597/CurriculoPNG_bm8yyh.png"
-                     alt="Imagem de prévia do Currículo"
-                     class="w-full h-auto rounded-xl shadow-lg">
+    <!-- Habilidades --><section id="habilidades" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+            <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
+                    Habilidades Técnicas
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
+                </h2>
+                <p class="mt-2 text-lg text-gray-200 max-w-lg">Ferramentas e softwares que dominam o meu fluxo de trabalho, agrupados por área.</p>
             </div>
-            <!-- REMOVIDO o parágrafo antigo de baixo da imagem -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mt-4">
+                <!-- Design Gráfico --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
+                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Design Gráfico</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Photoshop</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Illustrator</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">CorelDRAW</p></div>
+                    </div>
+                </div>
+                <!-- Edição de Vídeo --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
+                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Edição de Vídeo</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">After Effects</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Premiere Pro</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">CapCut</p></div>
+                    </div>
+                </div>
+                <!-- Modelagem 3D/Programação --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
+                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3 whitespace-nowrap">3D e Programação</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Blender 3D</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Unity</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">C#</p></div>
+                    </div>
+                </div>
+                <!-- Inteligência Artificial --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
+                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Inteligência Artificial</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">ComfyUI</p></div>
+                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Ai Local</p></div>
+                    </div>
+                </div>
+                <!-- Produtividade/Outras --><div class="md:col-span-2">
+                    <div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600 w-full">
+                        <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Produtividade/Outras</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Canva</p></div>
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">MS Excel</p></div>
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Autodisciplina</lido</p></div>
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Adaptabilidade</p></div>
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Criatividade e senso estético</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Rodapé Simplificado --><div class="bg-dark-purple-2 text-center text-gray-400 py-8 px-4">
+    <!-- Currículo --><section id="curriculo" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <div class="container mx-auto max-w-4xl p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+            <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
+                    Currículo
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
+                </h2>
+                <p class="mt-2 text-lg text-gray-200 max-w-lg">Clique na imagem abaixo para visualizar o currículo completo em tela cheia.</p>
+            </div>
+            <div id="curriculoImageContainer" class="cursor-pointer max-w-2xl mx-auto rounded-xl border-2 border-cyan-700 shadow-glow shadow-glow-hover transition-transform duration-300 transform hover:scale-105">
+                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195597/CurriculoPNG_bm8yyh.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé --><footer class="bg-dark-purple-1 text-center text-gray-200 py-8 px-4 border-t border-gray-700/50">
         <p class="text-sm">© 2025 Leonardo Coussian. Todos os direitos reservados.</p>
-    </div>
+    </footer>
 
-    <!-- Modal para exibição de imagem em tela cheia --><div id="imageModal" class="modal">
-        <!-- NOVO: Loader (Spinner) que aparece enquanto a imagem carrega -->
+    <!-- Modal --><div id="imageModal" class="modal">
         <div id="modalLoader" class="loader hidden"></div>
         <img id="modalImage" src="" alt="Imagem em tela cheia">
     </div>
 
-    <!-- JavaScript para a interatividade da página -->
+    <!-- JavaScript -->
     <script>
-        // O código abaixo só é executado quando o documento HTML está totalmente carregado
         document.addEventListener('DOMContentLoaded', () => {
 
-            // ----- Lógica para o Modal de Imagem em Tela Cheia -----
+            // ----- Modal -----
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
-            // NOVO: Referência ao novo elemento loader
             const modalLoader = document.getElementById('modalLoader');
+            const clickableImages = document.querySelectorAll('[data-modal-src]'); // Pega todas as imagens que abrem modal
 
-            // Seleciona todas as imagens das galerias para adicionar o evento de clique
-            const galleryImages = document.querySelectorAll('#dhdGallery img, #ivGallery1 img, #farmaciaGallery img, #indicafyGallery img, #institutoGallery img, #marbleGallery img, #threeDGallery img');
+            clickableImages.forEach(imgContainer => {
+                // Se o clique for no container (currículo), usa a imagem dentro dele
+                let imageElement = imgContainer.tagName === 'IMG' ? imgContainer : imgContainer.querySelector('img');
 
-            galleryImages.forEach(img => {
-                // Para cada imagem, adiciona um evento de clique
-                img.addEventListener('click', (event) => {
-                    const modalSrc = event.target.getAttribute('data-modal-src');
+                imgContainer.addEventListener('click', (event) => {
+                    const modalSrc = imageElement.getAttribute('data-modal-src');
+                    if (!modalSrc) return;
 
-                    // 1. Esconde a imagem anterior imediatamente
                     modalImage.classList.add('opacity-0');
-
-                    // NOVO: 2. Mostra o loader (spinner)
                     modalLoader.classList.remove('hidden');
-
-                    // 3. Define a nova fonte. O navegador começará a carregar a nova imagem.
                     modalImage.src = modalSrc;
 
-                    // 4. Espera o carregamento da nova imagem para remover a opacidade-0
-                    // O evento 'load' garante que a imagem só ficará visível quando estiver pronta.
                     modalImage.onload = () => {
-                        // Remove a opacidade-0 para fazer o fade-in suave
                         modalImage.classList.remove('opacity-0');
-                        // NOVO: Esconde o loader quando a imagem está carregada
                         modalLoader.classList.add('hidden');
-                        // Limpa o handler para não interferir em outros carregamentos (boa prática)
                         modalImage.onload = null;
                     };
-
-                    // Se a imagem estiver em cache, o evento 'load' pode não disparar.
-                    // Adicionamos um pequeno delay para garantir que a imagem seja pelo menos carregada
-                    if (modalImage.complete) {
-                        modalImage.classList.remove('opacity-0');
+                    modalImage.onerror = () => {
+                        console.error("Erro ao carregar imagem:", modalSrc);
                         modalLoader.classList.add('hidden');
-                    }
+                        modalImage.onerror = null;
+                    };
+                    if (modalImage.complete) { modalImage.onload(); }
 
-                    // Define a posição de rolagem do modal para o topo (0)
                     imageModal.scrollTop = 0;
-                    // Torna o modal visível
                     imageModal.classList.add('visible');
-                    // Adiciona a classe no body para travar a rolagem da página
                     document.body.classList.add('modal-open');
                 });
             });
 
-            // Adiciona um evento de clique ao modal para fechá-lo
             imageModal.addEventListener('click', () => {
                 imageModal.classList.remove('visible');
-                // Garante que o loader está escondido ao fechar
                 modalLoader.classList.add('hidden');
-                // Remove a classe do body para permitir a rolagem da página novamente
                 document.body.classList.remove('modal-open');
             });
-            // ------------------------------------------------------------------
 
-            // ----- Animação de Rolagem (Intersection Observer) -----
-            // Seleciona todos os elementos que têm a classe 'animate-on-scroll'
+            // NOVO: Fechar modal com a tecla 'Escape'
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && imageModal.classList.contains('visible')) {
+                    imageModal.classList.remove('visible');
+                    modalLoader.classList.add('hidden');
+                    document.body.classList.remove('modal-open');
+                }
+            });
+
+            // ----- Animação Scroll -----
             const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-            const observerOptions = {
-                root: null, // O viewport (área visível da tela) é o observador
-                rootMargin: '0px',
-                threshold: 0.2 // Ativa a animação quando 20% do elemento está visível
-            };
-
-            // Cria uma nova instância de Intersection Observer
-            const observer = new IntersectionObserver((entries, observer) => {
-                // Itera sobre cada elemento que está sendo observado
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Se o elemento está visível, adiciona a classe 'visible' para iniciar a animação
                         entry.target.classList.add('visible');
-                        // Para de observar o elemento após a animação ser ativada, para não ser executada novamente
-                        observer.unobserve(entry.target);
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
+            }, { threshold: 0.15 });
+            elementsToAnimate.forEach(el => observer.observe(el));
 
-            // Observa cada elemento que deve ser animado
-            elementsToAnimate.forEach(element => {
-                observer.observe(element);
-            });
-            // ------------------------------------------------------------------
-
-            // ----- Lógica para o scroll suave dos links do cabeçalho -----
-            // Seleciona todos os links de navegação
-            const navLinks = document.querySelectorAll('nav a');
-
-            // Adiciona um evento de clique a cada link
+            // ----- Scroll Suave -----
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    // Pega o ID da seção do atributo 'href' (ex: '#portfolio')
+                    event.preventDefault();
                     const targetId = link.getAttribute('href');
-
-                    // Verifica se o href é uma âncora interna
-                    if (targetId.startsWith('#')) {
-                        // Previne o comportamento padrão do navegador (pular bruscamente)
-                        event.preventDefault();
-                        const targetSection = document.querySelector(targetId);
-
-                        // Se a seção existe, rola a tela suavemente até ela
-                        if (targetSection) {
-                            targetSection.scrollIntoView({
-                                behavior: 'smooth'
-                            });
-                        }
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        const headerOffset = document.querySelector('nav').offsetHeight;
+                        const elementPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
-                    // Se o href não é uma âncora (como o link do WhatsApp), o comportamento padrão do navegador é mantido.
                 });
             });
-            // ------------------------------------------------------------------
 
-            // ----- Lógica para exibir/ocultar galerias ao clicar no botão -----
-            // Mapeamento dos botões e galerias
-            const dhdButton = document.getElementById('toggleDHDButton');
-            const ivButton = document.getElementById('toggleIVButton');
-            const farmaciaButton = document.getElementById('toggleFarmaciaButton');
-            const indicafyButton = document.getElementById('toggleIndicafyButton');
-            const institutoButton = document.getElementById('toggleInstitutoButton');
-            const marbleButton = document.getElementById('toggleMarbleButton');
-            const threeDButton = document.getElementById('toggle3DButton');
+            // ----- Galerias Portfólio -----
+            const toggleButtons = document.querySelectorAll('[data-target]');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => toggleGallery(button.getAttribute('data-target')));
+            });
 
-            // Adiciona eventos de clique aos contêineres DIV
-            dhdButton.addEventListener('click', () => { toggleGallery('dhdGallery'); });
-            ivButton.addEventListener('click', () => { toggleGallery('ivGallery1'); });
-            farmaciaButton.addEventListener('click', () => { toggleGallery('farmaciaGallery'); });
-            indicafyButton.addEventListener('click', () => { toggleGallery('indicafyGallery'); });
-            institutoButton.addEventListener('click', () => { toggleGallery('institutoGallery'); });
-            marbleButton.addEventListener('click', () => { toggleGallery('marbleGallery'); });
-            threeDButton.addEventListener('click', () => { toggleGallery('threeDGallery'); });
-
-            // Função para alternar a visibilidade de uma galeria
             function toggleGallery(targetId) {
                 const targetGallery = document.getElementById(targetId);
+                if (!targetGallery) return;
 
-                if (targetGallery) {
-                    if (targetGallery.classList.contains('opacity-0')) {
-                        // Abrir
-                        // Ao abrir, remove as classes de ocultar, incluindo 'pointer-events-none'
-                        targetGallery.classList.remove('opacity-0', 'max-h-0', 'pointer-events-none');
-                        targetGallery.classList.add('opacity-100', 'max-h-[9999px]');
-                    } else {
-                        // Fechar
-                        // Ao fechar, adiciona as classes de ocultar, incluindo 'pointer-events-none'
-                        targetGallery.classList.remove('opacity-100', 'max-h-[9999px]');
-                        targetGallery.classList.add('opacity-0', 'max-h-0', 'pointer-events-none');
+                const isOpening = targetGallery.classList.contains('opacity-0');
+
+                // [MODIFICADO] Bloco que fecha outras galerias foi removido.
+                /*
+                document.querySelectorAll('.gallery-section.opacity-100').forEach(openGallery => {
+                    if (openGallery.id !== targetId) {
+                        openGallery.classList.remove('opacity-100', 'max-h-[9999px]');
+                        openGallery.classList.add('opacity-0', 'max-h-0', 'pointer-events-none');
                     }
-                }
-            }
-
-            // NOVO: Lógica para a imagem de Currículo
-            const curriculoImage = document.getElementById('curriculoImage');
-
-            if (curriculoImage) {
-                curriculoImage.addEventListener('click', (event) => {
-                    event.preventDefault(); // Impede que o link tente navegar ou vá para o topo
-
-                    const modalSrc = curriculoImage.getAttribute('data-modal-src');
-
-                    // Reutiliza a lógica de carregamento do modal
-                    modalImage.classList.add('opacity-0');
-                    modalLoader.classList.remove('hidden');
-                    modalImage.src = modalSrc;
-
-                    modalImage.onload = () => {
-                        modalImage.classList.remove('opacity-0');
-                        modalLoader.classList.add('hidden');
-                        modalImage.onload = null;
-                    };
-
-                    if (modalImage.complete) {
-                        modalImage.classList.remove('opacity-0');
-                        modalLoader.classList.add('hidden');
-                    }
-
-                    imageModal.scrollTop = 0;
-                    imageModal.classList.add('visible');
-                    document.body.classList.add('modal-open');
                 });
+                */
+
+                // Abre ou fecha a galeria alvo
+                if (isOpening) {
+                    targetGallery.classList.remove('opacity-0', 'max-h-0', 'pointer-events-none');
+                    targetGallery.classList.add('opacity-100', 'max-h-[9999px]');
+                    // [MODIFICADO] Scroll suave removido.
+                    /*
+                    setTimeout(() => { // Rola suavemente após a abertura
+                        const headerOffset = document.querySelector('nav').offsetHeight;
+                        const elementPosition = targetGallery.getBoundingClientRect().top + window.pageYOffset - headerOffset - 20;
+                        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+                    }, 300); // Ajuste o tempo se necessário
+                    */
+                } else {
+                    targetGallery.classList.remove('opacity-100', 'max-h-[9999px]');
+                    targetGallery.classList.add('opacity-0', 'max-h-0', 'pointer-events-none');
+                }
             }
         });
     </script>
 </body>
 </html>
+
