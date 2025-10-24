@@ -185,51 +185,102 @@
             box-shadow: 0 0 15px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.3), inset 0 0 15px rgba(14, 116, 144, 0.2);
         }
 
-        .neon-button-hover:hover {
-            box-shadow: 0 0 8px rgba(14, 116, 144, 0.8), 0 0 30px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.4);
-            border-color: #0e7490; /* cian-700 */
+        /* ----- NOVOS ESTILOS: Botões do Portfólio com Imagem ----- */
+        .portfolio-card-button {
+            position: relative; /* Contexto para elementos absolutos internos */
+            overflow: hidden; /* Esconde o excesso da imagem no hover/zoom */
+            height: 150px; /* ATUALIZADO: Altura reduzida de 180px para 150px */
+            border-width: 2px; /* Mantém a borda que você já tinha */
+            transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out; /* Adicionado transição da borda */
         }
 
-        /* Botões do Portfólio */
-        .portfolio-button-container {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            position: relative;
-            cursor: pointer;
-            overflow: visible;
-            transform: scale(1);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-            .portfolio-button-container img {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-            }
-
-            .portfolio-button-container .default-img {
-                z-index: 10;
-                opacity: 1;
-                transition: opacity 0.3s ease-in-out;
-            }
-
-            .portfolio-button-container .hover-img {
+            .portfolio-card-button .bg-image {
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Garante que a imagem cubra o botão */
+                object-position: center;
+                transition: transform 0.4s ease-out, filter 0.4s ease-out;
+                filter: brightness(0.8); /* Escurece a imagem levemente */
+            }
+
+            .portfolio-card-button:hover .bg-image {
+                transform: scale(1.1); /* Efeito de zoom suave no hover */
+                filter: brightness(0.6); /* Escurece mais no hover */
+            }
+
+            /* Sobreposição de gradiente para legibilidade */
+            .portfolio-card-button .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.4) 50%, rgba(15, 23, 42, 0.2) 100%);
+                transition: background 0.4s ease-out;
+            }
+
+            .portfolio-card-button:hover .overlay {
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.5) 60%, rgba(15, 23, 42, 0.3) 100%);
+            }
+
+            /* Conteúdo de texto */
+            .portfolio-card-button .text-content {
+                position: absolute;
                 bottom: 0;
-                z-index: 5;
-                opacity: 0;
-                transition: opacity 0.3s ease-in-out;
+                left: 0;
+                width: 100%;
+                padding: 1.5rem; /* 24px */
+                text-align: left;
+                transition: transform 0.4s ease-out;
+                /* Move o texto para baixo por padrão */
+                transform: translateY(0);
             }
 
-            .portfolio-button-container:hover .default-img {
-                opacity: 0;
+            .portfolio-card-button:hover .text-content {
+                /* Move o texto para cima no hover */
+                transform: translateY(-10px);
             }
 
-            .portfolio-button-container:hover .hover-img {
-                opacity: 1;
+            .portfolio-card-button .title {
+                font-size: 1.875rem; /* text-3xl */
+                font-weight: 800; /* font-extrabold */
+                color: white;
+                transition: color 0.3s ease;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.7); /* Sombra de texto mais forte */
             }
+
+            .portfolio-card-button:hover .title {
+                color: #22d3ee; /* cyan-400 */
+            }
+
+            .portfolio-card-button .subtitle {
+                font-size: 1rem; /* text-base */
+                font-weight: 500; /* font-medium */
+                color: #e5e7eb; /* gray-200 */
+                opacity: 0; /* Oculto por padrão */
+                max-width: 90%; /* Garante que não quebre feio */
+                transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s;
+                transform: translateY(10px); /* Começa de baixo */
+                text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+            }
+
+            .portfolio-card-button:hover .subtitle {
+                opacity: 1; /* Aparece no hover */
+                transform: translateY(0); /* Move para a posição normal */
+            }
+
+            /* Efeito de brilho neon no hover (adaptado do neon-button-hover) */
+            .portfolio-card-button:hover {
+                box-shadow: 0 0 8px rgba(14, 116, 144, 0.8), 0 0 30px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.4);
+                border-color: #0e7490; /* cian-700 */
+            }
+
+
+        /* Botões do Portfólio (Antigos) - REMOVIDOS */
+        /* .portfolio-button-container { ... } */
 
         /* Zoom Imagens da Galeria */
         .card-hover-border img {
@@ -296,22 +347,39 @@
                     <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
                 <p class="mt-4 text-lg text-gray-200 max-w-lg">
-                    Uma coleção cuidadosamente selecionada dos meus trabalhos mais recentes e projetos de destaque.
+                    Uma coleção selecionada dos meus trabalhos mais recentes e projetos de destaque.
                 </p>
             </div>
+            <!-- SEÇÃO DE BOTÕES DO PORTFÓLIO ATUALIZADA -->
             <div class="space-y-4">
-                <!-- Botão DHD + Fleisch --><div id="toggleDHDButton" data-target="dhdGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">DHD & Fleisch</p></div>
+
+                <!-- Botão DHD + Fleisch -->
+                <div id="toggleDHDButton" data-target="dhdGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" alt="Preview DHD & Fleisch" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">DHD & Fleisch</h3>
+                        <p class="subtitle">Identidade Visual e Design de embalagens</p>
+                    </div>
                 </div>
+
                 <!-- Galeria DHD --><div id="dhdGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/Apresenta%C3%A7ao_Grupo_DHD_combinadoMenor_phyc2d.jpg" alt="Projeto 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758762132/CapaFleisch2_doynjq.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758761579/PRODUTOS_FLEISCH_combinado_f3cvlr.jpg" alt="Projeto 2"></div>
                     </div>
                 </div>
-                <!-- Botão Identidade visual --><div id="toggleIVButton" data-target="ivGallery1" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Identidade visual</p></div>
+
+                <!-- Botão Identidade visual -->
+                <div id="toggleIVButton" data-target="ivGallery1" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" alt="Preview Identidade Visual" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Identidade visual</h3>
+                        <p class="subtitle">Branding e Conceitos</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Identidade Visual --><div id="ivGallery1" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631399/10_bq1vra.webp" alt="Projeto de marca XYZ"></div>
@@ -332,18 +400,34 @@
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16_iabjgl.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758647810/16Apresentac%CC%A7a%CC%83o_Recupera-_Ortopedia_Bem-Estar_combinado_ibxwl8.webp" alt="Branding 16"></div>
                     </div>
                 </div>
-                <!-- Botão Farmácia Santa Terezinha --><div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Farmácia Santa Terezinha</p></div>
+
+                <!-- Botão Farmácia Santa Terezinha -->
+                <div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" alt="Preview Farmácia Santa Terezinha" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Farmácia Santa Terezinha</h3>
+                        <p class="subtitle">Mídias Sociais e Mascotes 3D</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Farmácia Santa Terezinha --><div id="farmaciaGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTSocialmedia_tacex4.webp" alt="Farmácia Santa Terezinha Projeto 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/capa2_gazl2j.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTMascotes2_yrenec.webp" alt="Farmácia Santa Terezinha Projeto 2"></div>
                     </div>
                 </div>
-                <!-- Botão Indicafy --><div id="toggleIndicafyButton" data-target="indicafyGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Indicafy</p></div>
+
+                <!-- Botão Indicafy -->
+                <div id="toggleIndicafyButton" data-target="indicafyGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" alt="Preview Indicafy" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Indicafy</h3>
+                        <p class="subtitle">Design geral e Pitch Deck</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Indicafy --><div id="indicafyGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/indicafySite_ucr0r1.webp" alt="Indicafy Projeto 1"></div>
@@ -351,25 +435,49 @@
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaFlyersIndicafy_dnrjc6.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/Clube_combinado_tksody.png" alt="Indicafy Projeto 3"></div>
                     </div>
                 </div>
-                <!-- Botão Instituto da prevenção --><div id="toggleInstitutoButton" data-target="institutoGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Instituto da prevenção</p></div>
+
+                <!-- Botão Instituto da prevenção -->
+                <div id="toggleInstitutoButton" data-target="institutoGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" alt="Preview Instituto da prevenção" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Instituto da prevenção</h3>
+                        <p class="subtitle">Identidade Visual Corporativa e social media</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Instituto da prevenção --><div id="institutoGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183993/IDP2_wo548g.webp" alt="Instituto da Prevenção Projeto 1"></div>
                     </div>
                 </div>
-                <!-- Botão Marble Perfumes --><div id="toggleMarbleButton" data-target="marbleGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Marble Perfumes</p></div>
+
+                <!-- Botão Marble Perfumes -->
+                <div id="toggleMarbleButton" data-target="marbleGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" alt="Preview Marble Perfumes" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Marble Perfumes</h3>
+                        <p class="subtitle">Design de Produto</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Marble Perfumes --><div id="marbleGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183863/Conoketi_p1lyak.webp" alt="Marble Perfumes Projeto 1"></div>
                     </div>
                 </div>
-                <!-- Botão Modelagem 3D --><div id="toggle3DButton" data-target="threeDGallery" class="w-full max-w-md mx-auto cursor-pointer border-2 border-cyan-700 p-4 rounded-xl shadow-md z-10 hover:z-20 hover:scale-[1.03] active:scale-[0.99] transition-all duration-300 bg-dark-purple-2 group neon-button-hover">
-                    <div class="flex flex-col items-center"><p class="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Modelagem 3D</p></div>
+
+                <!-- Botão Modelagem 3D -->
+                <div id="toggle3DButton" data-target="threeDGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                    <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" alt="Preview Modelagem 3D" class="bg-image">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h3 class="title">Modelagem 3D e pintura</h3>
+                        <p class="subtitle">Modelagem 3D, Impressão e pintura</p>
+                    </div>
                 </div>
+
                 <!-- Galeria Modelagem 3D --><div id="threeDGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184050/Elefante_xuejwq.webp" alt="Modelagem 3D Imagem 1"></div>
@@ -380,6 +488,7 @@
                     </div>
                 </div>
             </div>
+            <!-- FIM DA SEÇÃO DE BOTÕES ATUALIZADA -->
         </div>
     </section>
 
@@ -390,7 +499,7 @@
                     Habilidades Técnicas
                     <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
-                <p class="mt-2 text-lg text-gray-200 max-w-lg">Ferramentas e softwares que dominam o meu fluxo de trabalho, agrupados por área.</p>
+                <p class="mt-2 text-lg text-gray-200 max-w-lg">Ferramentas, softwares e habilidades que dominam o meu fluxo de trabalho, agrupados por área.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mt-4">
                 <!-- Design Gráfico --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
@@ -430,7 +539,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                             <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Canva</p></div>
                             <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">MS Excel</p></div>
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Autodisciplina</lido</p></div>
+                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Autodisciplina</p></div>
                             <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Adaptabilidade</p></div>
                             <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Criatividade e senso estético</p></div>
                         </div>
@@ -450,7 +559,7 @@
                 <p class="mt-2 text-lg text-gray-200 max-w-lg">Clique na imagem abaixo para visualizar o currículo completo em tela cheia.</p>
             </div>
             <div id="curriculoImageContainer" class="cursor-pointer max-w-2xl mx-auto rounded-xl border-2 border-cyan-700 shadow-glow shadow-glow-hover transition-transform duration-300 transform hover:scale-105">
-                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195597/CurriculoPNG_bm8yyh.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl shadow-lg">
+                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl shadow-lg">
             </div>
         </div>
     </section>
