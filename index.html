@@ -18,39 +18,39 @@
         }
 
         /* Estilos base para o corpo do documento */
-        body {
-            font-family: 'Inter', sans-serif; /* Aplica a fonte 'Inter' como padrão */
-            color: #f3f4f6; /* ATUALIZADO: Cor do texto padrão (cinza-100, quase branco) */
-            padding-top: 6rem; /* Adiciona espaço no topo para o cabeçalho fixo não cobrir o conteúdo */
-            overflow-x: hidden; /* Garante que não haja rolagem horizontal desnecessária */
-            /* NOVO: Adiciona sombra de texto sutil a todo o corpo para melhor contraste */
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        /* ----- NOVO: Fundo de Ondas (Canvas) ----- */
+        #wave-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* 100vh para cobrir a tela */
+            z-index: 0; /* Atrás do conteúdo */
+            /* Um leve gradiente escuro por trás do canvas para profundidade */
+            background: linear-gradient(180deg, #0f172a 0%, #0c1322 100%);
         }
+        /* ------------------------------------------- */
 
-        /* NOVA CLASSE: Gradiente de fundo ANIMADO */
-        .gradient-background {
-            /* Define um gradiente linear maior que a tela */
-            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #0891b2, #1e293b); /* Ciano mais escuro na animação */
-            background-size: 400% 400%; /* Tamanho maior para permitir o movimento */
-            animation: animate-gradient 15s ease infinite; /* Aplica a animação */
-            background-attachment: fixed; /* Fixa o fundo enquanto o usuário rola */
+        /* Garantir que o conteúdo principal fique sobre o canvas */
+        nav, header, section, footer {
+            position: relative;
+            z-index: 10;
         }
+        /* O cabeçalho 'nav' já é 'fixed' e 'z-50', o que é perfeito. */
 
-        /* Define a animação do gradiente */
-        @keyframes animate-gradient {
+
+        /* Animação do gradiente anterior (comentada) */
+        /* @keyframes animate-gradient {
             0% {
                 background-position: 0% 50%;
             }
-            /* Posição inicial */
             50% {
                 background-position: 100% 50%;
             }
-            /* Posição intermediária */
             100% {
                 background-position: 0% 50%;
             }
-            /* Volta à posição inicial */
-        }
+        } */
 
 
         /* Esta classe será adicionada ao <body> para impedir a rolagem da página quando o modal estiver aberto */
@@ -107,6 +107,16 @@
                 transform: translateY(0);
             }
         /* ------------------------------------------------------------------ */
+
+        /* ----- NOVO: Efeito 3D Interativo nos Cards ----- */
+        .interactive-card {
+            /* Adiciona uma transição suave para o efeito de 'tilt'
+               Usamos uma transição mais rápida para o 'mouseleave' */
+            transition: transform 0.1s linear;
+            will-change: transform; /* Otimização de performance */
+        }
+        /* -------------------------------------------------- */
+
 
         /* ----- Estilos do Modal de Imagem em Tela Cheia ----- */
         .modal {
@@ -333,9 +343,14 @@
         }
     </style>
 </head>
-<body class="antialiased gradient-background">
+<body class="antialiased">
+    <!-- Removida a classe gradient-background -->
+    <!-- NOVO: Fundo de Ondas (Canvas) -->
+    <canvas id="wave-canvas"></canvas>
 
-    <!-- Cabeçalho de Navegação Fixo --><nav class="fixed top-0 left-0 right-0 bg-dark-purple-2 bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-lg py-4 z-50 border-b border-gray-700/50">
+    <!-- Cabeçalho de Navegação Fixo -->
+    <!-- (O z-index: 50 dele garante que fique acima do canvas) -->
+    <nav class="fixed top-0 left-0 right-0 bg-dark-purple-2 bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-lg py-4 z-50 border-b border-gray-700/50">
         <div class="container mx-auto flex justify-center flex-wrap gap-x-6 gap-y-2 px-4">
             <a href="#portfolio" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Portfólio</a>
             <a href="#habilidades" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Habilidades</a>
@@ -347,12 +362,15 @@
         </div>
     </nav>
 
-    <!-- Cabeçalho Principal --><header class="py-6 px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Cabeçalho Principal -->
+    <header class="pt-24 pb-6 px-4 sm:px-6 lg:px-8 text-center">
         <div class="container mx-auto">
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-wide animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-wide animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
             <p class="mt-4 text-xl sm:text-2xl text-gray-200 font-semibold animate-[fade-in-up_1s_ease-out_forwards_0.5s]">Designer gráfico</p>
         </div>
-        <!-- Sobre Mim --><div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow mt-8 animate-on-scroll transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] group bg-slate-900/50 backdrop-blur-md">
+        <!-- Sobre Mim -->
+        <!-- NOVO: Adicionada a classe 'interactive-card' -->
+        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow mt-8 animate-on-scroll transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] group bg-slate-900/50 backdrop-blur-md interactive-card">
             <h2 class="text-3xl font-bold text-white text-center mb-6 border-b-2 border-cyan-400 pb-2 inline-block relative group-hover:text-cyan-400 transition-colors">Sobre Mim</h2>
             <p class="text-gray-100 text-lg leading-relaxed mt-6">
                 Designer Gráfico com experiência na criação e desenvolvimento de identidade visual e logomarcas. Habilidade na elaboração de materiais de marketing e design em geral, com foco em comunicação visual objetiva e engajadora. Proficiência em diversas ferramentas gráficas, de edição e em novas tecnologias como Inteligência Artificial.
@@ -360,7 +378,9 @@
         </div>
     </header>
 
-    <!-- Portfólio --><section id="portfolio" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <!-- Portfólio -->
+    <section id="portfolio" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <!-- CORREÇÃO: Removida a classe 'interactive-card' -->
         <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
             <div class="flex flex-col items-center justify-center mb-12 animate-on-scroll">
                 <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
@@ -513,8 +533,10 @@
         </div>
     </section>
 
-    <!-- Habilidades --><section id="habilidades" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+    <!-- Habilidades -->
+    <section id="habilidades" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <!-- NOVO: Adicionada a classe 'interactive-card' -->
+        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md interactive-card">
             <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
                 <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
                     Habilidades Técnicas
@@ -570,7 +592,9 @@
         </div>
     </section>
 
-    <!-- Currículo --><section id="curriculo" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <!-- Currículo -->
+    <section id="curriculo" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <!-- CORREÇÃO: Removida a classe 'interactive-card' -->
         <div class="container mx-auto max-w-4xl p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
             <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
                 <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
@@ -594,9 +618,99 @@
         <img id="modalImage" src="" alt="Imagem em tela cheia">
     </div>
 
-    <!-- JavaScript -->
+    <!-- SCRIPT DE PONTOS REMOVIDO -->
+    <!-- JavaScript Principal (Modal, Scroll, Galerias, Efeitos) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // ----- [NOVO] Fundo de Ondas Animadas -----
+            const canvas = document.getElementById('wave-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let width = canvas.width = window.innerWidth;
+                let height = canvas.height = window.innerHeight;
+                let frame = 0; // Contador de frames para animar
+
+                // Definições das ondas
+                const waves = [
+                    {
+                        y: height * 0.4,
+                        amplitude: 50,
+                        frequency: 0.01,
+                        speed: 0.015,
+                        color: 'rgba(14, 116, 144, 0.3)', // cyan-700 com opacidade
+                        lineWidth: 3
+                    },
+                    {
+                        y: height * 0.5,
+                        amplitude: 60,
+                        frequency: 0.012,
+                        speed: 0.02,
+                        color: 'rgba(34, 211, 238, 0.4)', // cyan-400 com opacidade
+                        lineWidth: 2
+                    },
+                    {
+                        y: height * 0.6,
+                        amplitude: 40,
+                        frequency: 0.008,
+                        speed: 0.01,
+                        color: 'rgba(51, 65, 85, 0.5)', // slate-700 com opacidade
+                        lineWidth: 2
+                    },
+                    {
+                        y: height * 0.7,
+                        amplitude: 30,
+                        frequency: 0.015,
+                        speed: 0.025,
+                        color: 'rgba(100, 116, 139, 0.3)', // slate-500 com opacidade
+                        lineWidth: 1
+                    }
+                ];
+
+                function drawWaves() {
+                    ctx.clearRect(0, 0, width, height);
+                    frame++; // Incrementa o frame
+
+                    waves.forEach(wave => {
+                        ctx.beginPath();
+                        ctx.moveTo(0, wave.y);
+
+                        ctx.strokeStyle = wave.color;
+                        ctx.lineWidth = wave.lineWidth;
+
+                        for (let x = 0; x < width; x++) {
+                            // Calcula o Y usando a função seno
+                            // wave.speed * frame = controla o movimento horizontal (fase)
+                            // x * wave.frequency = controla a "largura" da onda
+                            // wave.amplitude = controla a altura da onda
+                            const y = wave.y + Math.sin(x * wave.frequency + wave.speed * frame) * wave.amplitude;
+                            ctx.lineTo(x, y);
+                        }
+                        ctx.stroke();
+                    });
+
+                    requestAnimationFrame(drawWaves);
+                }
+
+                // Redimensiona o canvas com a janela
+                window.addEventListener('resize', () => {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                    // Atualiza a posição Y das ondas baseada na nova altura
+                    waves[0].y = height * 0.4;
+                    waves[1].y = height * 0.5;
+                    waves[2].y = height * 0.6;
+                    waves[3].y = height * 0.7;
+                });
+
+                // Inicia a animação
+                drawWaves();
+
+            } else {
+                console.error("Canvas de ondas não encontrado!");
+            }
+            // ---------------------------------------------
+
 
             // ----- Modal -----
             const imageModal = document.getElementById('imageModal');
@@ -677,6 +791,37 @@
                 });
             });
 
+            // ----- [NOVO] Efeito 3D "Tilt" nos Cards -----
+            const cards = document.querySelectorAll('.interactive-card');
+
+            cards.forEach(card => {
+                const maxRotate = 6; // Máximo de rotação em graus (reduzido para ser mais sutil)
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; // Posição X do mouse dentro do card
+                    const y = e.clientY - rect.top; // Posição Y do mouse dentro do card
+
+                    const { width, height } = rect;
+                    const halfWidth = width / 2;
+                    const halfHeight = height / 2;
+
+                    // Calcula a rotação
+                    const rotateX = ((y - halfHeight) / halfHeight) * -maxRotate;
+                    const rotateY = ((x - halfWidth) / halfWidth) * maxRotate;
+
+                    // Aplica o transform com uma leve escala
+                    card.style.transitionDuration = '0.1s'; // Transição rápida ao mover
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    // Reseta o transform com uma transição mais suave
+                    card.style.transitionDuration = '0.4s'; // Transição mais lenta ao sair
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            });
+
             // ----- Galerias Portfólio -----
             const toggleButtons = document.querySelectorAll('[data-target]');
             toggleButtons.forEach(button => {
@@ -720,5 +865,9 @@
     </script>
 </body>
 </html>
+
+
+
+
 
 
