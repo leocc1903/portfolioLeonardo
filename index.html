@@ -8,69 +8,109 @@
     <title>Portfólio Leonardo Coussian</title>
     <!-- Inclui o framework Tailwind CSS. Ele é um conjunto de classes prontas para estilizar o HTML de forma rápida. -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f172a' /><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='60' font-family='Inter, sans-serif' font-weight='800' fill='%2322d3ee'>L</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23171717' /><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='60' font-family='Inter, sans-serif' font-weight='800' fill='%2322d3ee'>L</text></svg>">
 
     <style>
         /* Importa a fonte 'Inter' do Google Fonts para um visual moderno e limpo */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap'); /* Adicionado pesos 800 e 900 para títulos */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
 
         /* Adiciona um preenchimento no topo para garantir que o conteúdo não seja coberto pelo cabeçalho fixo */
         html {
             scroll-padding-top: 6rem;
         }
 
-        /* Estilos base para o corpo do documento */
-        /* ----- NOVO: Fundo de Ondas (Canvas) ----- */
-        #wave-canvas {
+        /* Configurações do Corpo da Página */
+        body {
+            background-color: #0a0a0a; /* Cinza escuro profundo (quase preto) */
+            color: #e5e5e5;
+            position: relative;
+            overflow-x: hidden; /* Evita scroll horizontal devido aos blobs */
+        }
+
+        /* Garantir que o conteúdo principal fique sobre o fundo animado */
+        nav, header, section, footer, .modal, .loader {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ----- NOVO: Fundo Animado com "Blobs" ----- */
+        .blob-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* 100vh para cobrir a tela */
-            z-index: 0; /* Atrás do conteúdo */
-            /* Um leve gradiente escuro por trás do canvas para profundidade */
-            background: linear-gradient(180deg, #0f172a 0%, #0c1322 100%);
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none; /* Garante que não interfira nos cliques */
         }
-        /* ------------------------------------------- */
 
-        /* Garantir que o conteúdo principal fique sobre o canvas */
-        nav, header, section, footer {
-            position: relative;
-            z-index: 10;
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Desfoque forte para efeito suave */
+            opacity: 0.4;
+            animation: floatBlob 20s infinite alternate ease-in-out;
         }
-        /* O cabeçalho 'nav' já é 'fixed' e 'z-50', o que é perfeito. */
 
-
-        /* Animação do gradiente anterior (comentada) */
-        /* @keyframes animate-gradient {
+        @keyframes floatBlob {
             0% {
-                background-position: 0% 50%;
+                transform: translate(0, 0) scale(1);
             }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        } */
 
+            100% {
+                transform: translate(20px, -20px) scale(1.1);
+            }
+        }
+
+        /* Configuração específica de cada blob para variar a animação */
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(14, 116, 144, 0.3) 0%, rgba(0,0,0,0) 70%); /* Ciano escuro */
+            animation-duration: 25s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(88, 28, 135, 0.25) 0%, rgba(0,0,0,0) 70%); /* Roxo escuro */
+            animation-duration: 30s;
+            animation-direction: alternate-reverse;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 30%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(15, 23, 42, 0.5) 0%, rgba(0,0,0,0) 70%); /* Slate escuro */
+            animation-duration: 35s;
+            opacity: 0.3;
+        }
+
+        /* ------------------------------------------- */
 
         /* Esta classe será adicionada ao <body> para impedir a rolagem da página quando o modal estiver aberto */
         body.modal-open {
             overflow: hidden;
         }
 
-        /* Classes de cores personalizadas (Agora em tons de Azul Escuro/Ciano) */
+        /* Classes de cores personalizadas (Ajustadas para o novo tema cinza escuro) */
         .bg-dark-purple-1 {
-            background-color: #0f172a; /* Azul-marinho principal */
+            background-color: #171717; /* Cinza neutro escuro (rodapé) */
         }
 
         .bg-dark-purple-2 {
-            background-color: #1e293b; /* Azul-marinho escuro para cabeçalho/curriculo */
+            background-color: #1f1f1f; /* Cinza um pouco mais claro para cards/nav */
         }
 
         .bg-dark-purple-3 {
-            background-color: #334155; /* Azul-marinho médio para cards de habilidade */
+            background-color: #262626; /* Cinza médio para detalhes */
         }
 
         /* ----- Animações de Entrada de Seções ao Rolar a Página ----- */
@@ -110,16 +150,6 @@
             }
         /* ------------------------------------------------------------------ */
 
-        /* ----- NOVO: Efeito 3D Interativo nos Cards ----- */
-        .interactive-card {
-            /* Adiciona uma transição suave para o efeito de 'tilt'
-               Usamos uma transição mais rápida para o 'mouseleave' */
-            transition: transform 0.1s linear;
-            will-change: transform; /* Otimização de performance */
-        }
-        /* -------------------------------------------------- */
-
-
         /* ----- Estilos do Modal de Imagem em Tela Cheia ----- */
         .modal {
             position: fixed;
@@ -127,7 +157,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95); /* Fundo mais escuro no modal */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -150,8 +180,8 @@
                 height: auto;
                 max-width: 100%;
                 max-height: none;
-                border-radius: 1rem;
-                box-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
+                border-radius: 0.5rem;
+                box-shadow: 0 0 3rem rgba(0, 0, 0, 0.8);
                 transition: opacity 0.3s ease-in-out;
             }
 
@@ -172,8 +202,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1010;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top: 4px solid #0e7490; /* cian-700 */
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #22d3ee; /* cian-400 */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -183,27 +213,34 @@
 
         /* ----- Estilos Adicionais ----- */
         .bg-gradient-to-r-purple {
-            /* ATUALIZADO: Gradiente para ciano brilhante */
-            background-image: linear-gradient(to right, #22d3ee, #06b6d4); /* cian-400 to cian-500 */
+            /* Gradiente ciano brilhante */
+            background-image: linear-gradient(to right, #22d3ee, #0891b2);
         }
 
         .shadow-glow {
-            /* Ciano mais escuro para a sombra */
-            box-shadow: 0 0 10px rgba(14, 116, 144, 0.4), 0 0 40px rgba(14, 116, 144, 0.1), inset 0 0 10px rgba(14, 116, 144, 0.1);
-            transition: box-shadow 0.3s ease-in-out;
+            /* Sombra com mais luz (ciano/azul) nas bordas */
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.15), 0 0 0 1px rgba(34, 211, 238, 0.2);
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease;
         }
+
+        /* Hover mais intenso nos containers principais */
+        .container-card-hover:hover {
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.25), 0 0 0 2px rgba(34, 211, 238, 0.3);
+        }
+
 
         .shadow-glow-hover:hover {
-            box-shadow: 0 0 15px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.3), inset 0 0 15px rgba(14, 116, 144, 0.2);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
         }
 
-        /* ----- NOVOS ESTILOS: Botões do Portfólio com Imagem ----- */
+        /* ----- Botões do Portfólio com Imagem ----- */
         .portfolio-card-button {
-            position: relative; /* Contexto para elementos absolutos internos */
-            overflow: hidden; /* Esconde o excesso da imagem no hover/zoom */
-            height: 150px; /* ATUALIZADO: Altura reduzida de 180px para 150px */
-            border-width: 2px; /* Mantém a borda que você já tinha */
-            transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out; /* Adicionado transição da borda */
+            position: relative;
+            overflow: hidden;
+            height: 150px;
+            border-width: 1px; /* Borda mais fina */
+            border-color: rgba(255, 255, 255, 0.1); /* Borda sutil */
+            transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out;
         }
 
             .portfolio-card-button .bg-image {
@@ -212,56 +249,52 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                object-fit: cover; /* Garante que a imagem cubra o botão */
+                object-fit: cover;
                 object-position: center;
-                transition: transform 0.4s ease-out, filter 0.4s ease-out;
-                filter: brightness(0.8); /* Escurece a imagem levemente */
+                transition: transform 0.5s ease-out, filter 0.4s ease-out;
+                filter: brightness(0.7) grayscale(20%); /* Levemente desaturado para combinar com cinza */
             }
 
             .portfolio-card-button:hover .bg-image {
-                transform: scale(1.1); /* Efeito de zoom suave no hover */
-                filter: brightness(0.6); /* Escurece mais no hover */
+                transform: scale(1.05);
+                filter: brightness(0.5) grayscale(0%);
             }
 
-            /* Sobreposição de gradiente para legibilidade */
             .portfolio-card-button .overlay {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.4) 50%, rgba(15, 23, 42, 0.2) 100%);
+                background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.5) 50%, rgba(10, 10, 10, 0.2) 100%);
                 transition: background 0.4s ease-out;
             }
 
             .portfolio-card-button:hover .overlay {
-                background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.5) 60%, rgba(15, 23, 42, 0.3) 100%);
+                background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.6) 60%, rgba(10, 10, 10, 0.3) 100%);
             }
 
-            /* Conteúdo de texto */
             .portfolio-card-button .text-content {
                 position: absolute;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                padding: 1.5rem; /* 24px */
+                padding: 1.5rem;
                 text-align: left;
                 transition: transform 0.4s ease-out;
-                /* Move o texto para baixo por padrão */
                 transform: translateY(0);
             }
 
             .portfolio-card-button:hover .text-content {
-                /* Move o texto para cima no hover */
-                transform: translateY(-10px);
+                transform: translateY(-5px);
             }
 
             .portfolio-card-button .title {
-                font-size: 1.875rem; /* text-3xl */
-                font-weight: 800; /* font-extrabold */
-                color: white;
+                font-size: 1.875rem;
+                font-weight: 800;
+                color: #f5f5f5;
                 transition: color 0.3s ease;
-                text-shadow: 0 2px 4px rgba(0,0,0,0.7); /* Sombra de texto mais forte */
+                text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             }
 
             .portfolio-card-button:hover .title {
@@ -269,97 +302,98 @@
             }
 
             .portfolio-card-button .subtitle {
-                font-size: 1rem; /* text-base */
-                font-weight: 500; /* font-medium */
-                color: #e5e7eb; /* gray-200 */
-                opacity: 0; /* Oculto por padrão */
-                max-width: 90%; /* Garante que não quebre feio */
+                font-size: 1rem;
+                font-weight: 500;
+                color: #d4d4d4;
+                opacity: 0;
+                max-width: 90%;
                 transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s;
-                transform: translateY(10px); /* Começa de baixo */
-                text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+                transform: translateY(10px);
+                text-shadow: 0 1px 3px rgba(0,0,0,0.8);
             }
 
             .portfolio-card-button:hover .subtitle {
-                opacity: 1; /* Aparece no hover */
-                transform: translateY(0); /* Move para a posição normal */
+                opacity: 1;
+                transform: translateY(0);
             }
 
-            /* Efeito de brilho neon no hover (adaptado do neon-button-hover) */
             .portfolio-card-button:hover {
-                box-shadow: 0 0 8px rgba(14, 116, 144, 0.8), 0 0 30px rgba(14, 116, 144, 0.6), 0 0 60px rgba(14, 116, 144, 0.4);
-                border-color: #0e7490; /* cian-700 */
+                box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+                border-color: #0e7490;
             }
 
-
-        /* Botões do Portfólio (Antigos) - REMOVIDOS */
-        /* .portfolio-button-container { ... } */
 
         /* Zoom Imagens da Galeria */
         .card-hover-border img {
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .card-hover-border:hover img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         /* Habilidades */
         .skill-card {
-            background-color: #334155;
-            border: 1px solid #0e7490; /* cian-700 */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #262626; /* Cinza médio */
+            border: 1px solid #404040; /* Borda cinza sutil */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
         }
 
             .skill-card:hover {
-                transform: scale(0.97);
-                box-shadow: 0 0 15px rgba(14, 116, 144, 0.4); /* cian-700 */
-                background-color: #475569;
-                border-color: #0891b2; /* cian-600 */
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                background-color: #333333;
+                border-color: #22d3ee; /* Detalhe ciano no hover */
             }
 
-        /* REMOVIDO sombra de texto extra nos botões, pois o body já aplica */
-        /* .group-hover\:text-cyan-600 {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
-        } */
+            .skill-card p {
+                color: #d4d4d4;
+            }
 
-        /* ----- NOVOS ESTILOS: Ajustes Responsivos para Mobile ----- */
-        @media (max-width: 640px) { /* sm: breakpoint */
+            .skill-card:hover p {
+                color: white;
+            }
+
+        /* ----- Ajustes Responsivos Mobile ----- */
+        @media (max-width: 640px) {
             .portfolio-card-button {
-                height: 140px; /* Um pouco menor no celular */
+                height: 140px;
             }
 
                 .portfolio-card-button .text-content {
-                    padding: 1rem; /* 16px - Menor preenchimento no celular */
+                    padding: 1rem;
                 }
 
                 .portfolio-card-button .title {
-                    font-size: 1.5rem; /* text-2xl - Fonte menor no celular */
-                    font-weight: 700; /* font-bold */
+                    font-size: 1.5rem;
+                    font-weight: 700;
                 }
 
                 .portfolio-card-button .subtitle {
-                    font-size: 0.875rem; /* text-sm - Subtítulo menor */
-                    max-width: 100%; /* Permite usar todo o espaço (com padding) */
+                    font-size: 0.875rem;
+                    max-width: 100%;
                 }
         }
     </style>
 </head>
 <body class="antialiased">
-    <!-- Removida a classe gradient-background -->
-    <!-- NOVO: Fundo de Ondas (Canvas) -->
-    <canvas id="wave-canvas"></canvas>
+    <!-- Fundo Animado (Blobs) -->
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
 
     <!-- Cabeçalho de Navegação Fixo -->
-    <!-- (O z-index: 50 dele garante que fique acima do canvas) -->
-    <nav class="fixed top-0 left-0 right-0 bg-dark-purple-2 bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-lg py-4 z-50 border-b border-gray-700/50">
+    <nav class="fixed top-0 left-0 right-0 bg-dark-purple-2/80 backdrop-filter backdrop-blur-md shadow-lg py-4 z-50 border-b border-white/5">
         <div class="container mx-auto flex justify-center flex-wrap gap-x-6 gap-y-2 px-4">
-            <a href="#portfolio" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Portfólio</a>
-            <a href="#habilidades" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Habilidades</a>
-            <a href="#curriculo" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300">Currículo</a>
-            <a href="https://wa.me/5541998783295" target="_blank" class="text-white font-semibold hover:text-cyan-400 transition-colors duration-300 flex items-center gap-1">
+            <a href="#portfolio" class="text-gray-300 font-medium hover:text-cyan-400 transition-colors duration-300">Portfólio</a>
+            <a href="#habilidades" class="text-gray-300 font-medium hover:text-cyan-400 transition-colors duration-300">Habilidades</a>
+            <a href="#curriculo" class="text-gray-300 font-medium hover:text-cyan-400 transition-colors duration-300">Currículo</a>
+            <a href="https://wa.me/5541998783295" target="_blank" class="text-gray-300 font-medium hover:text-cyan-400 transition-colors duration-300 flex items-center gap-1">
                 Contato
-                <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758233342/Whatsicon_itcqgq.png" alt="Ícone do WhatsApp" class="w-4 h-4">
+                <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758233342/Whatsicon_itcqgq.png" alt="Ícone do WhatsApp" class="w-4 h-4 opacity-80 hover:opacity-100">
             </a>
         </div>
     </nav>
@@ -367,37 +401,35 @@
     <!-- Cabeçalho Principal -->
     <header class="pt-24 pb-6 px-4 sm:px-6 lg:px-8 text-center">
         <div class="container mx-auto">
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-wide animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
-            <p class="mt-4 text-xl sm:text-2xl text-gray-200 font-semibold animate-[fade-in-up_1s_ease-out_forwards_0.5s]">Designer gráfico</p>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight animate-[fade-in-down_1s_ease-out_forwards]">Olá, sou Leonardo</h1>
+            <p class="mt-4 text-xl sm:text-2xl text-gray-400 font-medium animate-[fade-in-up_1s_ease-out_forwards_0.5s]">Designer gráfico</p>
         </div>
-        <!-- Sobre Mim -->
-        <!-- NOVO: Adicionada a classe 'interactive-card' -->
-        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow mt-8 animate-on-scroll transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] group bg-slate-900/50 backdrop-blur-md interactive-card">
-            <h2 class="text-3xl font-bold text-white text-center mb-6 border-b-2 border-cyan-400 pb-2 inline-block relative group-hover:text-cyan-400 transition-colors">Sobre Mim</h2>
-            <p class="text-gray-100 text-lg leading-relaxed mt-6">
+        <!-- Sobre Mim (Sem efeito de movimento/tilt) -->
+        <div class="container mx-auto max-w-4xl border border-white/10 p-8 rounded-3xl shadow-glow mt-10 animate-on-scroll bg-dark-purple-2/60 backdrop-blur-sm container-card-hover transition-shadow duration-300">
+            <h2 class="text-3xl font-bold text-white text-center mb-6 border-b-2 border-cyan-500/50 pb-2 inline-block relative">Sobre Mim</h2>
+            <p class="text-gray-300 text-lg leading-relaxed mt-2">
                 Designer Gráfico com experiência na criação e desenvolvimento de identidade visual e logomarcas. Habilidade na elaboração de materiais de marketing e design em geral, com foco em comunicação visual objetiva e engajadora. Proficiência em diversas ferramentas gráficas, de edição e em novas tecnologias como Inteligência Artificial.
             </p>
         </div>
     </header>
 
     <!-- Portfólio -->
-    <section id="portfolio" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <!-- CORREÇÃO: Removida a classe 'interactive-card' -->
-        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+    <section id="portfolio" class="py-10 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <div class="container mx-auto max-w-4xl border border-white/10 p-8 rounded-3xl shadow-glow text-center bg-dark-purple-2/60 backdrop-blur-sm container-card-hover transition-shadow duration-300">
             <div class="flex flex-col items-center justify-center mb-12 animate-on-scroll">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight relative mb-2">
                     Portfólio
-                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
-                <p class="mt-4 text-lg text-gray-200 max-w-lg">
+                <p class="mt-4 text-lg text-gray-400 max-w-lg">
                     Uma coleção selecionada dos meus trabalhos mais recentes e projetos de destaque.
                 </p>
             </div>
-            <!-- SEÇÃO DE BOTÕES DO PORTFÓLIO ATUALIZADA -->
-            <div class="space-y-4">
+            <!-- SEÇÃO DE BOTÕES DO PORTFÓLIO -->
+            <div class="space-y-5">
 
                 <!-- Botão DHD + Fleisch -->
-                <div id="toggleDHDButton" data-target="dhdGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleDHDButton" data-target="dhdGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" alt="Preview DHD & Fleisch" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -406,7 +438,8 @@
                     </div>
                 </div>
 
-                <!-- Galeria DHD --><div id="dhdGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria DHD -->
+                <div id="dhdGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/capaDHD2_kkoo9t.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758745241/Apresenta%C3%A7ao_Grupo_DHD_combinadoMenor_phyc2d.jpg" alt="Projeto 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758762132/CapaFleisch2_doynjq.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758761579/PRODUTOS_FLEISCH_combinado_f3cvlr.jpg" alt="Projeto 2"></div>
@@ -414,7 +447,7 @@
                 </div>
 
                 <!-- Botão Identidade visual -->
-                <div id="toggleIVButton" data-target="ivGallery1" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleIVButton" data-target="ivGallery1" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" alt="Preview Identidade Visual" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -423,7 +456,8 @@
                     </div>
                 </div>
 
-                <!-- Galeria Identidade Visual --><div id="ivGallery1" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Identidade Visual -->
+                <div id="ivGallery1" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-10_rlg0yj.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631399/10_bq1vra.webp" alt="Projeto de marca XYZ"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631504/Sem_T%C3%ADtulo-13_fnk01d.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1758631434/13_ndqx1x.webp" alt="Guia de marca"></div>
@@ -445,7 +479,7 @@
                 </div>
 
                 <!-- Botão Farmácia Santa Terezinha -->
-                <div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleFarmaciaButton" data-target="farmaciaGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" alt="Preview Farmácia Santa Terezinha" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -454,7 +488,8 @@
                     </div>
                 </div>
 
-                <!-- Galeria Farmácia Santa Terezinha --><div id="farmaciaGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Farmácia Santa Terezinha -->
+                <div id="farmaciaGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/Capa1_llqwy3.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTSocialmedia_tacex4.webp" alt="Farmácia Santa Terezinha Projeto 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183966/capa2_gazl2j.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183968/FSTMascotes2_yrenec.webp" alt="Farmácia Santa Terezinha Projeto 2"></div>
@@ -462,7 +497,7 @@
                 </div>
 
                 <!-- Botão Indicafy -->
-                <div id="toggleIndicafyButton" data-target="indicafyGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleIndicafyButton" data-target="indicafyGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" alt="Preview Indicafy" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -471,7 +506,8 @@
                     </div>
                 </div>
 
-                <!-- Galeria Indicafy --><div id="indicafyGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Indicafy -->
+                <div id="indicafyGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaIdentidadeVisualIndicafy2_lfczen.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362351/indicafySite_ucr0r1.webp" alt="Indicafy Projeto 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362350/CapaPitchdeckIndicafy_wadynb.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1760362479/Pitch_nicho_hof_combinado_lcdigq.jpg" alt="Indicafy Projeto 2"></div>
@@ -480,7 +516,7 @@
                 </div>
 
                 <!-- Botão Instituto da prevenção -->
-                <div id="toggleInstitutoButton" data-target="institutoGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleInstitutoButton" data-target="institutoGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" alt="Preview Instituto da prevenção" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -489,14 +525,15 @@
                     </div>
                 </div>
 
-                <!-- Galeria Instituto da prevenção --><div id="institutoGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Instituto da prevenção -->
+                <div id="institutoGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183992/CapaIDP_kxy5xs.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183993/IDP2_wo548g.webp" alt="Instituto da Prevenção Projeto 1"></div>
                     </div>
                 </div>
 
                 <!-- Botão Marble Perfumes -->
-                <div id="toggleMarbleButton" data-target="marbleGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggleMarbleButton" data-target="marbleGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" alt="Preview Marble Perfumes" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -505,14 +542,15 @@
                     </div>
                 </div>
 
-                <!-- Galeria Marble Perfumes --><div id="marbleGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Marble Perfumes -->
+                <div id="marbleGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183862/Capa_y6xl6u.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761183863/Conoketi_p1lyak.webp" alt="Marble Perfumes Projeto 1"></div>
                     </div>
                 </div>
 
                 <!-- Botão Modelagem 3D -->
-                <div id="toggle3DButton" data-target="threeDGallery" class="portfolio-card-button w-full max-w-lg mx-auto cursor-pointer border-cyan-700 rounded-xl shadow-md z-10 hover:z-20 group">
+                <div id="toggle3DButton" data-target="threeDGallery" class="portfolio-card-button w-full max-w-2xl mx-auto cursor-pointer rounded-xl shadow-md z-10 hover:z-20 group bg-gray-800">
                     <img src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" alt="Preview Modelagem 3D" class="bg-image">
                     <div class="overlay"></div>
                     <div class="text-content">
@@ -521,72 +559,81 @@
                     </div>
                 </div>
 
-                <!-- Galeria Modelagem 3D --><div id="threeDGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
+                <!-- Galeria Modelagem 3D -->
+                <div id="threeDGallery" class="gallery-section transition-all duration-500 ease-in-out opacity-0 max-h-0 pointer-events-none mx-auto w-full overflow-hidden">
                     <div class="grid grid-cols-1 gap-8 mt-8">
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184051/ImagemPadrao_suqfss.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184050/Elefante_xuejwq.webp" alt="Modelagem 3D Imagem 1"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184040/MascotesCapa_tfz0bt.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184039/Mascotes_pufzhb.webp" alt="Modelagem 3D Imagem 2"></div>
                         <div class="relative rounded-lg shadow-lg cursor-pointer card-hover-border group transition-all duration-300 hover:z-50"><img class="w-full h-auto object-cover rounded-lg" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/CAPA3dEmgeral_r1ezvm.webp" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761184038/3dEmgeral_acasaj.webp" alt="Modelagem 3D Imagem 3"></div>
-                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/r55raPhoD4g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/LcJVUfCWvzM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
+                            <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/r55raPhoD4g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        </div>
+                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
+                            <div class="aspect-video rounded-lg overflow-hidden shadow-lg"><iframe class="w-full h-full object-cover" src="https://www.youtube.com/embed/LcJVUfCWvzM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- FIM DA SEÇÃO DE BOTÕES ATUALIZADA -->
         </div>
     </section>
 
     <!-- Habilidades -->
-    <section id="habilidades" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <!-- NOVO: Adicionada a classe 'interactive-card' -->
-        <div class="container mx-auto max-w-4xl border-2 border-cyan-700 p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md interactive-card">
+    <section id="habilidades" class="py-10 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <!-- Container (Sem efeito de movimento/tilt) -->
+        <div class="container mx-auto max-w-4xl border border-white/10 p-8 rounded-3xl shadow-glow text-center bg-dark-purple-2/60 backdrop-blur-sm container-card-hover transition-shadow duration-300">
             <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight relative mb-2">
                     Habilidades Técnicas
-                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
-                <p class="mt-2 text-lg text-gray-200 max-w-lg">Ferramentas, softwares e habilidades que dominam o meu fluxo de trabalho, agrupados por área.</p>
+                <p class="mt-4 text-lg text-gray-400 max-w-lg">Ferramentas, softwares e habilidades que dominam o meu fluxo de trabalho.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mt-4">
-                <!-- Design Gráfico --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
-                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Design Gráfico</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-left mt-4">
+                <!-- Design Gráfico -->
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Design Gráfico</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Photoshop</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Illustrator</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">CorelDRAW</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Photoshop</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Illustrator</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">CorelDRAW</p></div>
                     </div>
                 </div>
-                <!-- Edição de Vídeo --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
-                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Edição de Vídeo</h3>
+                <!-- Edição de Vídeo -->
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Edição de Vídeo</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">After Effects</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Premiere Pro</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">CapCut</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">After Effects</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Premiere Pro</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">CapCut</p></div>
                     </div>
                 </div>
-                <!-- Modelagem 3D/Programação --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
-                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3 whitespace-nowrap">3D e Programação</h3>
+                <!-- Modelagem 3D/Programação -->
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4 whitespace-nowrap">3D e Programação</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Blender 3D</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Unity</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">C#</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Blender 3D</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Unity</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">C#</p></div>
                     </div>
                 </div>
-                <!-- Inteligência Artificial --><div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600">
-                    <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Inteligência Artificial</h3>
+                <!-- Inteligência Artificial -->
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Inteligência Artificial</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">ComfyUI</p></div>
-                        <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Ai Local</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">ComfyUI</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Ai Local</p></div>
                     </div>
                 </div>
-                <!-- Produtividade/Outras --><div class="md:col-span-2">
-                    <div class="bg-dark-purple-2 p-4 rounded-2xl shadow-lg border border-cyan-700 transition-all duration-300 hover:border-cyan-600 w-full">
-                        <h3 class="text-2xl font-bold text-cyan-400 border-b border-cyan-700 pb-2 mb-3">Produtividade/Outras</h3>
+                <!-- Produtividade/Outras -->
+                <div class="md:col-span-2">
+                    <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30 w-full">
+                        <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Produtividade/Outras</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Canva</p></div>
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">MS Excel</p></div>
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Autodisciplina</p></div>
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Adaptabilidade</p></div>
-                            <div class="p-2 rounded-xl skill-card flex items-center justify-center group"><p class="text-sm font-semibold text-white text-center transition-colors duration-200 group-hover:text-cyan-400">Criatividade e senso estético</p></div>
+                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Canva</p></div>
+                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">MS Excel</p></div>
+                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Autodisciplina</p></div>
+                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Adaptabilidade</p></div>
+                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Criatividade</p></div>
                         </div>
                     </div>
                 </div>
@@ -595,133 +642,43 @@
     </section>
 
     <!-- Currículo -->
-    <section id="curriculo" class="py-6 px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <!-- CORREÇÃO: Removida a classe 'interactive-card' -->
-        <div class="container mx-auto max-w-4xl p-8 rounded-3xl shadow-glow text-center bg-slate-900/50 backdrop-blur-md">
+    <section id="curriculo" class="py-10 px-4 sm:px-6 lg:px-8 animate-on-scroll">
+        <div class="container mx-auto max-w-4xl p-8 rounded-3xl shadow-glow text-center bg-dark-purple-2/60 backdrop-blur-sm container-card-hover transition-shadow duration-300 border border-white/10">
             <div class="flex flex-col items-center justify-center mb-8 animate-on-scroll">
-                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide relative mb-2">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight relative mb-2">
                     Currículo
-                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
+                    <span class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r-purple rounded-full"></span>
                 </h2>
-                <p class="mt-2 text-lg text-gray-200 max-w-lg">Clique na imagem abaixo para visualizar o currículo completo em tela cheia.</p>
+                <p class="mt-4 text-lg text-gray-400 max-w-lg">Clique na imagem abaixo para visualizar o currículo completo em tela cheia.</p>
             </div>
-            <div id="curriculoImageContainer" class="cursor-pointer max-w-2xl mx-auto rounded-xl border-2 border-cyan-700 shadow-glow shadow-glow-hover transition-transform duration-300 transform hover:scale-105">
-                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl shadow-lg">
+            <div id="curriculoImageContainer" class="cursor-pointer max-w-2xl mx-auto rounded-xl border border-white/10 shadow-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-cyan-500/20">
+                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl">
             </div>
         </div>
     </section>
 
-    <!-- Rodapé --><footer class="bg-dark-purple-1 text-center text-gray-200 py-8 px-4 border-t border-gray-700/50">
+    <!-- Rodapé -->
+    <footer class="bg-dark-purple-1 text-center text-gray-500 py-8 px-4 border-t border-white/5">
         <p class="text-sm">© 2025 Leonardo Coussian. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Modal --><div id="imageModal" class="modal">
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
         <div id="modalLoader" class="loader hidden"></div>
         <img id="modalImage" src="" alt="Imagem em tela cheia">
     </div>
 
-    <!-- SCRIPT DE PONTOS REMOVIDO -->
-    <!-- JavaScript Principal (Modal, Scroll, Galerias, Efeitos) -->
+    <!-- JavaScript Principal -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // ----- [NOVO] Fundo de Ondas Animadas -----
-            const canvas = document.getElementById('wave-canvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                let width = canvas.width = window.innerWidth;
-                let height = canvas.height = window.innerHeight;
-                let frame = 0; // Contador de frames para animar
-
-                // Definições das ondas
-                const waves = [
-                    {
-                        y: height * 0.4,
-                        amplitude: 50,
-                        frequency: 0.01,
-                        speed: 0.015,
-                        color: 'rgba(14, 116, 144, 0.3)', // cyan-700 com opacidade
-                        lineWidth: 3
-                    },
-                    {
-                        y: height * 0.5,
-                        amplitude: 60,
-                        frequency: 0.012,
-                        speed: 0.02,
-                        color: 'rgba(34, 211, 238, 0.4)', // cyan-400 com opacidade
-                        lineWidth: 2
-                    },
-                    {
-                        y: height * 0.6,
-                        amplitude: 40,
-                        frequency: 0.008,
-                        speed: 0.01,
-                        color: 'rgba(51, 65, 85, 0.5)', // slate-700 com opacidade
-                        lineWidth: 2
-                    },
-                    {
-                        y: height * 0.7,
-                        amplitude: 30,
-                        frequency: 0.015,
-                        speed: 0.025,
-                        color: 'rgba(100, 116, 139, 0.3)', // slate-500 com opacidade
-                        lineWidth: 1
-                    }
-                ];
-
-                function drawWaves() {
-                    ctx.clearRect(0, 0, width, height);
-                    frame++; // Incrementa o frame
-
-                    waves.forEach(wave => {
-                        ctx.beginPath();
-                        ctx.moveTo(0, wave.y);
-
-                        ctx.strokeStyle = wave.color;
-                        ctx.lineWidth = wave.lineWidth;
-
-                        for (let x = 0; x < width; x++) {
-                            // Calcula o Y usando a função seno
-                            // wave.speed * frame = controla o movimento horizontal (fase)
-                            // x * wave.frequency = controla a "largura" da onda
-                            // wave.amplitude = controla a altura da onda
-                            const y = wave.y + Math.sin(x * wave.frequency + wave.speed * frame) * wave.amplitude;
-                            ctx.lineTo(x, y);
-                        }
-                        ctx.stroke();
-                    });
-
-                    requestAnimationFrame(drawWaves);
-                }
-
-                // Redimensiona o canvas com a janela
-                window.addEventListener('resize', () => {
-                    width = canvas.width = window.innerWidth;
-                    height = canvas.height = window.innerHeight;
-                    // Atualiza a posição Y das ondas baseada na nova altura
-                    waves[0].y = height * 0.4;
-                    waves[1].y = height * 0.5;
-                    waves[2].y = height * 0.6;
-                    waves[3].y = height * 0.7;
-                });
-
-                // Inicia a animação
-                drawWaves();
-
-            } else {
-                console.error("Canvas de ondas não encontrado!");
-            }
-            // ---------------------------------------------
-
 
             // ----- Modal -----
             const imageModal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
             const modalLoader = document.getElementById('modalLoader');
-            const clickableImages = document.querySelectorAll('[data-modal-src]'); // Pega todas as imagens que abrem modal
+            const clickableImages = document.querySelectorAll('[data-modal-src]');
 
             clickableImages.forEach(imgContainer => {
-                // Se o clique for no container (currículo), usa a imagem dentro dele
                 let imageElement = imgContainer.tagName === 'IMG' ? imgContainer : imgContainer.querySelector('img');
 
                 imgContainer.addEventListener('click', (event) => {
@@ -756,7 +713,6 @@
                 document.body.classList.remove('modal-open');
             });
 
-            // NOVO: Fechar modal com a tecla 'Escape'
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && imageModal.classList.contains('visible')) {
                     imageModal.classList.remove('visible');
@@ -793,37 +749,6 @@
                 });
             });
 
-            // ----- [NOVO] Efeito 3D "Tilt" nos Cards -----
-            const cards = document.querySelectorAll('.interactive-card');
-
-            cards.forEach(card => {
-                const maxRotate = 6; // Máximo de rotação em graus (reduzido para ser mais sutil)
-
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left; // Posição X do mouse dentro do card
-                    const y = e.clientY - rect.top; // Posição Y do mouse dentro do card
-
-                    const { width, height } = rect;
-                    const halfWidth = width / 2;
-                    const halfHeight = height / 2;
-
-                    // Calcula a rotação
-                    const rotateX = ((y - halfHeight) / halfHeight) * -maxRotate;
-                    const rotateY = ((x - halfWidth) / halfWidth) * maxRotate;
-
-                    // Aplica o transform com uma leve escala
-                    card.style.transitionDuration = '0.1s'; // Transição rápida ao mover
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    // Reseta o transform com uma transição mais suave
-                    card.style.transitionDuration = '0.4s'; // Transição mais lenta ao sair
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                });
-            });
-
             // ----- Galerias Portfólio -----
             const toggleButtons = document.querySelectorAll('[data-target]');
             toggleButtons.forEach(button => {
@@ -836,28 +761,9 @@
 
                 const isOpening = targetGallery.classList.contains('opacity-0');
 
-                // [MODIFICADO] Bloco que fecha outras galerias foi removido.
-                /*
-                document.querySelectorAll('.gallery-section.opacity-100').forEach(openGallery => {
-                    if (openGallery.id !== targetId) {
-                        openGallery.classList.remove('opacity-100', 'max-h-[9999px]');
-                        openGallery.classList.add('opacity-0', 'max-h-0', 'pointer-events-none');
-                    }
-                });
-                */
-
-                // Abre ou fecha a galeria alvo
                 if (isOpening) {
                     targetGallery.classList.remove('opacity-0', 'max-h-0', 'pointer-events-none');
                     targetGallery.classList.add('opacity-100', 'max-h-[9999px]');
-                    // [MODIFICADO] Scroll suave removido.
-                    /*
-                    setTimeout(() => { // Rola suavemente após a abertura
-                        const headerOffset = document.querySelector('nav').offsetHeight;
-                        const elementPosition = targetGallery.getBoundingClientRect().top + window.pageYOffset - headerOffset - 20;
-                        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-                    }, 300); // Ajuste o tempo se necessário
-                    */
                 } else {
                     targetGallery.classList.remove('opacity-100', 'max-h-[9999px]');
                     targetGallery.classList.add('opacity-0', 'max-h-0', 'pointer-events-none');
@@ -867,9 +773,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
