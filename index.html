@@ -25,6 +25,7 @@
             color: #e5e5e5;
             position: relative;
             overflow-x: hidden; /* Evita scroll horizontal devido aos blobs */
+            font-family: 'Inter', sans-serif;
         }
 
         /* Garantir que o conteúdo principal fique sobre o fundo animado */
@@ -183,6 +184,7 @@
                 border-radius: 0.5rem;
                 box-shadow: 0 0 3rem rgba(0, 0, 0, 0.8);
                 transition: opacity 0.3s ease-in-out;
+                margin: auto; /* Centraliza se for menor que a tela */
             }
 
         /* ----- Estilos do Loader ----- */
@@ -621,20 +623,24 @@
                     <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Inteligência Artificial</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">ComfyUI</p></div>
-                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Ai Local</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">IA Local</p></div>
                     </div>
                 </div>
+
+                <!-- NOVO SLOT: UX/UI -->
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">UX/UI</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Figma</p></div>
+                    </div>
+                </div>
+
                 <!-- Produtividade/Outras -->
-                <div class="md:col-span-2">
-                    <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30 w-full">
-                        <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Produtividade/Outras</h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Canva</p></div>
-                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">MS Excel</p></div>
-                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Autodisciplina</p></div>
-                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Adaptabilidade</p></div>
-                            <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Criatividade</p></div>
-                        </div>
+                <div class="bg-dark-purple-3 p-5 rounded-2xl shadow-md border border-white/5 transition-all duration-300 hover:border-cyan-500/30">
+                    <h3 class="text-xl font-bold text-cyan-400 border-b border-white/10 pb-2 mb-4">Produtividade/Outras</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">Canva</p></div>
+                        <div class="p-3 rounded-xl skill-card flex items-center justify-center group cursor-default"><p class="text-sm font-semibold text-center">MS Excel</p></div>
                     </div>
                 </div>
             </div>
@@ -652,7 +658,7 @@
                 <p class="mt-4 text-lg text-gray-400 max-w-lg">Clique na imagem abaixo para visualizar o currículo completo em tela cheia.</p>
             </div>
             <div id="curriculoImageContainer" class="cursor-pointer max-w-2xl mx-auto rounded-xl border border-white/10 shadow-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-cyan-500/20">
-                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1761195913/CurriculoPNG_arqb6e.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl">
+                <img id="curriculoImage" src="https://res.cloudinary.com/diw2dxejw/image/upload/v1764021818/CurriculoImagem_mcpany.png" data-modal-src="https://res.cloudinary.com/diw2dxejw/image/upload/v1764021818/CurriculoImagem_mcpany.png" alt="Imagem de prévia do Currículo" class="w-full h-auto rounded-xl">
             </div>
         </div>
     </section>
